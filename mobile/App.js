@@ -11,6 +11,7 @@ export default function App() {
   const [input, setInput] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isRegistering, setIsRegistering] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -35,6 +36,16 @@ export default function App() {
       await AsyncStorage.setItem('token', jwt);
     } catch (err) {
       alert("Erreur de connexion");
+    }
+  };
+
+  const handleRegister = async () => {
+    try {
+      await axios.post(`${API_URL}/register.php`, { username, password });
+      alert("Compte créé ! Connectez-vous.");
+      setIsRegistering(false);
+    } catch (err) {
+      alert("Erreur lors de l'inscription");
     }
   };
 
@@ -66,8 +77,13 @@ export default function App() {
         <Text style={styles.title}>Assistant Examens CM</Text>
         <TextInput style={styles.input} placeholder="Utilisateur" value={username} onChangeText={setUsername} />
         <TextInput style={styles.input} placeholder="Mot de passe" secureTextEntry value={password} onChangeText={setPassword} />
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>SE CONNECTER</Text>
+        <TouchableOpacity style={styles.button} onPress={isRegistering ? handleRegister : handleLogin}>
+          <Text style={styles.buttonText}>{isRegistering ? "S'INSCRIRE" : "SE CONNECTER"}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{marginTop: 20}} onPress={() => setIsRegistering(!isRegistering)}>
+          <Text style={{textAlign: 'center', color: '#0056b3'}}>
+            {isRegistering ? "Déjà un compte ? Connexion" : "Pas de compte ? S'inscrire"}
+          </Text>
         </TouchableOpacity>
       </View>
     );

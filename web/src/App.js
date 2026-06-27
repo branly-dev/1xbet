@@ -9,6 +9,7 @@ function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isRegistering, setIsRegistering] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,6 +21,17 @@ function App() {
       setError('');
     } catch (err) {
       setError('Identifiants incorrects');
+    }
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(`${API_URL}/register.php`, { username, password });
+      setIsRegistering(false);
+      setError('Compte créé ! Connectez-vous.');
+    } catch (err) {
+      setError('Erreur lors de la création du compte');
     }
   };
 
@@ -35,7 +47,7 @@ function App() {
         <div style={styles.card}>
           <h1 style={styles.title}>Assistant Examens Cameroun</h1>
           <p style={styles.subtitle}>Réussissez votre BAC, Probatoire ou BEPC avec l'IA</p>
-          <form onSubmit={handleLogin} style={styles.form}>
+          <form onSubmit={isRegistering ? handleRegister : handleLogin} style={styles.form}>
             <input
               style={styles.input}
               type="text"
@@ -50,9 +62,20 @@ function App() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            {error && <p style={{color: 'red'}}>{error}</p>}
-            <button type="submit" style={styles.button}>SE CONNECTER</button>
+            {error && <p style={{color: error.includes('créé') ? 'green' : 'red'}}>{error}</p>}
+            <button type="submit" style={styles.button}>
+              {isRegistering ? "S'INSCRIRE" : "SE CONNECTER"}
+            </button>
           </form>
+          <p style={{ marginTop: '20px' }}>
+            {isRegistering ? "Déjà un compte ?" : "Pas encore de compte ?"}
+            <button
+              onClick={() => { setIsRegistering(!isRegistering); setError(''); }}
+              style={{ background: 'none', border: 'none', color: '#0056b3', cursor: 'pointer', fontWeight: 'bold' }}
+            >
+              {isRegistering ? " Connexion" : " S'inscrire"}
+            </button>
+          </p>
         </div>
       </div>
     );
