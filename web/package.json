@@ -1,0 +1,14 @@
+{
+  "name": "cameroon-exam-ai-web",
+  "version": "1.0.0",
+  "description": "Frontend web pour l'assistant IA des examens camerounais",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "axios": "^1.4.0"
+  }
+}
