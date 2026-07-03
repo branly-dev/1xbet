@@ -1,0 +1,73 @@
+[Fri Jul  3 09:02:49 2026] PHP 8.3.6 Development Server (http://localhost:8000) started
+[Fri Jul  3 09:03:07 2026] [::1]:37932 Accepted
+[Fri Jul  3 09:03:07 2026] [::1]:37932 [200]: GET /web/build/
+[Fri Jul  3 09:03:07 2026] [::1]:37932 Closing
+[Fri Jul  3 09:03:07 2026] [::1]:37942 Accepted
+[Fri Jul  3 09:03:07 2026] [::1]:37944 Accepted
+[Fri Jul  3 09:03:07 2026] [::1]:37942 [200]: GET /web/build/style.css
+[Fri Jul  3 09:03:07 2026] [::1]:37944 [404]: GET /static/js/main.56e6c171.js - No such file or directory
+[Fri Jul  3 09:03:07 2026] [::1]:37944 Closing
+[Fri Jul  3 09:03:07 2026] [::1]:37942 Closing
+[Fri Jul  3 09:04:24 2026] [::1]:40422 Accepted
+[Fri Jul  3 09:04:24 2026] [::1]:40422 [200]: GET /web/build/index.html
+[Fri Jul  3 09:04:24 2026] [::1]:40422 Closing
+[Fri Jul  3 09:04:24 2026] [::1]:40426 Accepted
+[Fri Jul  3 09:04:24 2026] [::1]:40442 Accepted
+[Fri Jul  3 09:04:24 2026] [::1]:40426 [200]: GET /web/build/style.css
+[Fri Jul  3 09:04:24 2026] [::1]:40442 [404]: GET /static/js/main.56e6c171.js - No such file or directory
+[Fri Jul  3 09:04:24 2026] [::1]:40442 Closing
+[Fri Jul  3 09:04:24 2026] [::1]:40426 Closing
+[Fri Jul  3 09:05:44 2026] [::1]:44060 Accepted
+[Fri Jul  3 09:05:44 2026] [::1]:44060 [200]: GET /web/build/index.html
+[Fri Jul  3 09:05:44 2026] [::1]:44060 Closing
+[Fri Jul  3 09:05:44 2026] [::1]:44072 Accepted
+[Fri Jul  3 09:05:44 2026] [::1]:44074 Accepted
+[Fri Jul  3 09:05:44 2026] [::1]:44072 [200]: GET /web/build/style.css
+[Fri Jul  3 09:05:44 2026] [::1]:44074 [200]: GET /static/js/main.56e6c171.js
+[Fri Jul  3 09:05:44 2026] [::1]:44072 Closing
+[Fri Jul  3 09:05:44 2026] [::1]:44074 Closing
+[Fri Jul  3 09:05:48 2026] [::1]:59568 Accepted
+[Fri Jul  3 09:05:48 2026] [::1]:59568 [200]: POST /api/endpoints/register.php
+[Fri Jul  3 09:05:48 2026] [::1]:59568 Closing
+[Fri Jul  3 09:06:50 2026] [::1]:50036 Accepted
+[Fri Jul  3 09:06:50 2026] [::1]:50036 [200]: GET /web/build/index.html
+[Fri Jul  3 09:06:50 2026] [::1]:50036 Closing
+[Fri Jul  3 09:06:50 2026] [::1]:50042 Accepted
+[Fri Jul  3 09:06:50 2026] [::1]:50052 Accepted
+[Fri Jul  3 09:06:50 2026] [::1]:50042 [200]: GET /web/build/style.css
+[Fri Jul  3 09:06:50 2026] [::1]:50052 [200]: GET /static/js/main.56e6c171.js
+[Fri Jul  3 09:06:50 2026] [::1]:50042 Closing
+[Fri Jul  3 09:06:50 2026] [::1]:50052 Closing
+[Fri Jul  3 09:06:54 2026] [::1]:50066 Accepted
+[Fri Jul  3 09:06:54 2026] [::1]:50066 [400]: POST /api/endpoints/register.php
+[Fri Jul  3 09:06:54 2026] [::1]:50066 Closing
+[Fri Jul  3 09:06:57 2026] [::1]:41794 Accepted
+[Fri Jul  3 09:06:57 2026] [::1]:41794 [400]: POST /api/endpoints/register.php
+[Fri Jul  3 09:06:57 2026] [::1]:41794 Closing
+[Fri Jul  3 09:07:54 2026] [::1]:41330 Accepted
+[Fri Jul  3 09:07:54 2026] [::1]:41330 [200]: GET /api/endpoints/exams.php
+[Fri Jul  3 09:07:54 2026] [::1]:41330 Closing
+[Fri Jul  3 09:08:12 2026] [::1]:40996 Accepted
+[Fri Jul  3 09:08:12 2026] [::1]:40996 [200]: GET /web/build/index.html
+[Fri Jul  3 09:08:12 2026] [::1]:40996 Closing
+[Fri Jul  3 09:08:12 2026] [::1]:41000 Accepted
+[Fri Jul  3 09:08:12 2026] [::1]:41004 Accepted
+[Fri Jul  3 09:08:12 2026] [::1]:41000 [200]: GET /web/build/style.css
+[Fri Jul  3 09:08:12 2026] [::1]:41004 [200]: GET /static/js/main.56e6c171.js
+[Fri Jul  3 09:08:12 2026] [::1]:41000 Closing
+[Fri Jul  3 09:08:12 2026] [::1]:41004 Closing
+[Fri Jul  3 09:08:17 2026] [::1]:41016 Accepted
+[Fri Jul  3 09:08:17 2026] [::1]:41016 [200]: POST /api/endpoints/register.php
+[Fri Jul  3 09:08:17 2026] [::1]:41016 Closing
+[Fri Jul  3 09:08:20 2026] [::1]:51152 Accepted
+[Fri Jul  3 09:08:20 2026] [::1]:51152 [200]: POST /api/endpoints/login.php
+[Fri Jul  3 09:08:20 2026] [::1]:51152 Closing
+[Fri Jul  3 09:08:20 2026] [::1]:51168 Accepted
+[Fri Jul  3 09:08:20 2026] [::1]:51168 [200]: GET /api/endpoints/exams.php
+[Fri Jul  3 09:08:20 2026] [::1]:51168 Closing
+[Fri Jul  3 09:08:22 2026] [::1]:51180 Accepted
+[Fri Jul  3 09:08:22 2026] [::1]:51180 [200]: GET /api/endpoints/subjects.php?exam_id=1
+[Fri Jul  3 09:08:22 2026] [::1]:51180 Closing
+[Fri Jul  3 09:08:24 2026] [::1]:51184 Accepted
+[Fri Jul  3 09:08:24 2026] [::1]:51184 [200]: POST /api/endpoints/chat.php
+[Fri Jul  3 09:08:24 2026] [::1]:51184 Closing
