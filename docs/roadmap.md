@@ -5,7 +5,7 @@ Le projet est divisé en 4 phases majeures suivant une méthodologie Agile.
 ## Phase 1 : Fondations & RAG (Sprint 1-2) - "Le Cœur de l'IA"
 - **Objectif** : Avoir un agent IA qui répond correctement aux questions juridiques camerounaises.
 - **Tâches** :
-    - Mise en place du Backend (NestJS/PHP) et DB (PostgreSQL + pgvector).
+    - Mise en place du Backend (PHP 8+ natif) et DB (PostgreSQL + pgvector).
     - Collecte et indexation des textes de loi prioritaires (Code du Travail, Code Civil, OHADA).
     - Développement du pipeline RAG avec Claude API.
     - Création du System Prompt bilingue.
