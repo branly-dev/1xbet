@@ -1,0 +1,7 @@
+[Sat Jul  4 05:36:04 2026] PHP 8.3.6 Development Server (http://localhost:8000) started
+[Sat Jul  4 05:36:06 2026] [::1]:50496 Accepted
+[Sat Jul  4 05:36:06 2026] [::1]:50496 [200]: POST /api/endpoints/auth.php
+[Sat Jul  4 05:36:06 2026] [::1]:50496 Closing
+[Sat Jul  4 05:36:06 2026] [::1]:50506 Accepted
+[Sat Jul  4 05:36:06 2026] [::1]:50506 [200]: POST /api/endpoints/chat.php
+[Sat Jul  4 05:36:06 2026] [::1]:50506 Closing
