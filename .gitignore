@@ -1,0 +1,8 @@
+node_modules/
+**/node_modules/
+.expo/
+dist/
+build/
+**/build/
+database/database.sqlite
+php_server.log
