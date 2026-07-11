@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistant Examens Cameroun</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const API_URL = '/api/endpoints';
+
+        const translations = {
+            fr: { login: "Connexion", register: "S'inscrire", username: "Utilisateur", password: "Mot de passe", exam: "Examen", subject: "Matière", send: "Envoyer", switchLang: "English", logout: "Déconnexion" },
+            en: { login: "Login", register: "Register", username: "Username", password: "Password", exam: "Exam", subject: "Subject", send: "Send", switchLang: "Français", logout: "Logout" }
+        };
+
+        function App() {
+            const [token, setToken] = React.useState(localStorage.getItem('token'));
+            const [lang, setLang] = React.useState('fr');
+            const [isLogin, setIsLogin] = React.useState(true);
+            const [username, setUsername] = React.useState('');
+            const [password, setPassword] = React.useState('');
+            const [exams, setExams] = React.useState([]);
+            const [selectedExam, setSelectedExam] = React.useState('');
+            const [selectedSubject, setSelectedSubject] = React.useState('');
+            const [message, setMessage] = React.useState('');
+            const [chat, setChat] = React.useState([]);
+
+            const t = translations[lang];
+
+            React.useEffect(() => {
+                if (token) {
+                    fetch(`${API_URL}/exams.php`)
+                        .then(res => res.json())
+                        .then(data => {
+                            setExams(data);
+                            if (data.length > 0) setSelectedExam(data[0].id);
+                        });
+                }
+            }, [token]);
+
+            const handleAuth = async (e) => {
+                e.preventDefault();
+                const action = isLogin ? 'login' : 'register';
+                const response = await fetch(`${API_URL}/auth.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, username, password })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    if (isLogin) {
+                        setToken(data.token);
+                        localStorage.setItem('token', data.token);
+                    } else {
+                        alert("Compte créé !");
+                        setIsLogin(true);
+                    }
+                } else {
+                    alert(data.error);
+                }
+            };
+
+            const handleSend = async (e) => {
+                e.preventDefault();
+                if (!message) return;
+                const newChat = [...chat, { role: 'user', text: message }];
+                setChat(newChat);
+                setMessage('');
+
+                const response = await fetch(`${API_URL}/chat.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ message, exam_id: selectedExam, subject_id: selectedSubject, language: lang })
+                });
+                const data = await response.json();
+                setChat([...newChat, { role: 'ai', text: data.response }]);
+            };
+
+            if (!token) {
+                return (
+                    <div className="auth-container">
+                        <h2>{isLogin ? t.login : t.register}</h2>
+                        <form onSubmit={handleAuth}>
+                            <input type="text" placeholder={t.username} value={username} onChange={e => setUsername(e.target.value)} required />
+                            <input type="password" placeholder={t.password} value={password} onChange={e => setPassword(e.target.value)} required />
+                            <button type="submit">{isLogin ? t.login : t.register}</button>
+                        </form>
+                        <button onClick={() => setIsLogin(!isLogin)}>{isLogin ? t.register : t.login}</button>
+                    </div>
+                );
+            }
+
+            const subjects = exams.find(e => e.id == selectedExam)?.subjects || [];
+
+            return (
+                <div className="chat-container">
+                    <div className="lang-switch">
+                        <button onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')} className="lang-btn">{t.switchLang}</button>
+                        <button onClick={() => { setToken(null); localStorage.removeItem('token'); }} className="lang-btn">{t.logout}</button>
+                    </div>
+                    <select value={selectedExam} onChange={e => setSelectedExam(e.target.value)}>
+                        {exams.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
+                    </select>
+                    <select value={selectedSubject} onChange={e => setSelectedSubject(e.target.value)}>
+                        <option value="">{t.subject}</option>
+                        {subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+                    </select>
+                    <div className="messages">
+                        {chat.map((m, i) => (
+                            <div key={i} className={`message ${m.role === 'user' ? 'user-message' : 'ai-message'}`}>
+                                {m.text}
+                            </div>
+                        ))}
+                    </div>
+                    <form onSubmit={handleSend}>
+                        <input type="text" value={message} onChange={e => setMessage(e.target.value)} placeholder="Posez votre question..." />
+                        <button type="submit">{t.send}</button>
+                    </form>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
