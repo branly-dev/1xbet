@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cameroon Exam Assistant</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Configuration
+        const API_URL = window.location.hostname === 'localhost'
+            ? 'http://localhost:8000/api/endpoints'
+            : '/api/endpoints';
+
+        const translations = {
+            fr: {
+                login: "Connexion",
+                register: "S'inscrire",
+                username: "Nom d'utilisateur",
+                password: "Mot de passe",
+                noAccount: "Pas de compte ?",
+                haveAccount: "Déjà un compte ?",
+                chatTitle: "Assistant d'Examen Camerounais",
+                selectExam: "Choisir un examen",
+                selectSubject: "Choisir une matière",
+                typeMessage: "Tapez votre question...",
+                send: "Envoyer",
+                logout: "Déconnexion"
+            },
+            en: {
+                login: "Login",
+                register: "Register",
+                username: "Username",
+                password: "Password",
+                noAccount: "Don't have an account?",
+                haveAccount: "Already have an account?",
+                chatTitle: "Cameroonian Exam Assistant",
+                selectExam: "Select an exam",
+                selectSubject: "Select a subject",
+                typeMessage: "Type your question...",
+                send: "Send",
+                logout: "Logout"
+            }
+        };
+
+        // Components
+        const Auth = ({ onLogin, t, language }) => {
+            const [isLogin, setIsLogin] = useState(true);
+            const [username, setUsername] = useState('');
+            const [password, setPassword] = useState('');
+            const [error, setError] = useState('');
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setError('');
+                try {
+                    const res = await fetch(`${API_URL}/auth.php`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            action: isLogin ? 'login' : 'register',
+                            username,
+                            password
+                        })
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        localStorage.setItem('user', JSON.stringify(data));
+                        onLogin(data);
+                    } else {
+                        setError(data.error);
+                    }
+                } catch (err) {
+                    setError('Connection failed');
+                }
+            };
+
+            return (
+                <div className="bg-white p-8 rounded-lg shadow-md max-w-md mx-auto mt-10">
+                    <h2 className="text-xl font-bold mb-4">{isLogin ? t.login : t.register}</h2>
+                    {error && <p className="text-red-500 mb-4">{error}</p>}
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                        <input
+                            type="text"
+                            placeholder={t.username}
+                            value={username}
+                            onChange={e => setUsername(e.target.value)}
+                            className="border p-2 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+                            required
+                        />
+                        <input
+                            type="password"
+                            placeholder={t.password}
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            className="border p-2 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+                            required
+                        />
+                        <button type="submit" className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition font-bold">
+                            {isLogin ? t.login : t.register}
+                        </button>
+                    </form>
+                    <button
+                        onClick={() => setIsLogin(!isLogin)}
+                        className="mt-4 text-blue-600 text-sm hover:underline"
+                    >
+                        {isLogin ? t.noAccount : t.haveAccount}
+                    </button>
+                </div>
+            );
+        };
+
+        const Chat = ({ user, t, language }) => {
+            const [exams, setExams] = useState([]);
+            const [selectedExam, setSelectedExam] = useState('');
+            const [selectedSubject, setSelectedSubject] = useState('');
+            const [message, setMessage] = useState('');
+            const [messages, setMessages] = useState([]);
+            const [loading, setLoading] = useState(false);
+
+            useEffect(() => {
+                fetch(`${API_URL}/exams.php`)
+                    .then(res => res.json())
+                    .then(data => setExams(data))
+                    .catch(err => console.error("Failed to load exams", err));
+            }, []);
+
+            const handleSend = async (e) => {
+                e.preventDefault();
+                if (!message.trim()) return;
+
+                const newUserMsg = { role: 'user', content: message };
+                setMessages(prev => [...prev, newUserMsg]);
+                const currentMsg = message;
+                setMessage('');
+                setLoading(true);
+
+                try {
+                    const res = await fetch(`${API_URL}/chat.php`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${user.token}`
+                        },
+                        body: JSON.stringify({
+                            message: currentMsg,
+                            exam_id: selectedExam,
+                            subject_id: selectedSubject,
+                            language
+                        })
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        setMessages(prev => [...prev, { role: 'ai', content: data.response }]);
+                    } else if (res.status === 401) {
+                        localStorage.removeItem('user');
+                        window.location.reload();
+                    }
+                } catch (err) {
+                    console.error("Chat error", err);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const currentExam = exams.find(e => e.id == selectedExam);
+
+            return (
+                <div className="chat-container">
+                    <div className="p-4 border-b flex flex-wrap gap-4 bg-gray-50 rounded-t-lg">
+                        <select
+                            value={selectedExam}
+                            onChange={e => { setSelectedExam(e.target.value); setSelectedSubject(''); }}
+                            className="border p-2 rounded flex-1 min-w-[200px]"
+                        >
+                            <option value="">{t.selectExam}</option>
+                            {exams.map(e => (
+                                <option key={e.id} value={e.id}>{language === 'fr' ? e.name_fr : e.name_en}</option>
+                            ))}
+                        </select>
+                        <select
+                            value={selectedSubject}
+                            onChange={e => setSelectedSubject(e.target.value)}
+                            className="border p-2 rounded flex-1 min-w-[200px]"
+                            disabled={!selectedExam}
+                        >
+                            <option value="">{t.selectSubject}</option>
+                            {currentExam?.subjects.map(s => (
+                                <option key={s.id} value={s.id}>{language === 'fr' ? s.name_fr : s.name_en}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="messages-list flex flex-col bg-white">
+                        {messages.length === 0 && (
+                            <div className="text-gray-400 text-center mt-20">{t.typeMessage}</div>
+                        )}
+                        {messages.map((msg, i) => (
+                            <div key={i} className={`message-item ${msg.role === 'user' ? 'user-message' : 'ai-message'}`}>
+                                {msg.content}
+                            </div>
+                        ))}
+                        {loading && <div className="ai-message message-item animate-pulse">...</div>}
+                    </div>
+
+                    <form onSubmit={handleSend} className="p-4 border-t flex gap-2 bg-gray-50 rounded-b-lg">
+                        <input
+                            type="text"
+                            value={message}
+                            onChange={e => setMessage(e.target.value)}
+                            placeholder={t.typeMessage}
+                            className="border p-2 rounded flex-1 outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                        <button type="submit" disabled={loading} className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition disabled:opacity-50">
+                            {t.send}
+                        </button>
+                    </form>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+            const [language, setLanguage] = useState(localStorage.getItem('language') || 'fr');
+
+            const t = translations[language];
+
+            const handleLogout = () => {
+                localStorage.removeItem('user');
+                setUser(null);
+            };
+
+            return (
+                <div className="min-h-screen bg-gray-100 p-4 md:p-8">
+                    <div className="max-w-4xl mx-auto">
+                        <header className="flex justify-between items-center mb-6 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                            <div className="flex items-center gap-2">
+                                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">A</div>
+                                <h1 className="text-xl md:text-2xl font-bold text-gray-800">{t.chatTitle}</h1>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <select
+                                    value={language}
+                                    onChange={(e) => {
+                                        setLanguage(e.target.value);
+                                        localStorage.setItem('language', e.target.value);
+                                    }}
+                                    className="border rounded p-1 text-sm bg-gray-50"
+                                >
+                                    <option value="fr">Français</option>
+                                    <option value="en">English</option>
+                                </select>
+                                {user && (
+                                    <button onClick={handleLogout} className="text-red-500 text-sm font-semibold hover:text-red-700">{t.logout}</button>
+                                )}
+                            </div>
+                        </header>
+
+                        {!user ? (
+                            <Auth onLogin={setUser} t={t} language={language} />
+                        ) : (
+                            <Chat user={user} t={t} language={language} />
+                        )}
+                    </div>
+                    <footer className="max-w-4xl mx-auto mt-8 text-center text-gray-500 text-xs">
+                        &copy; 2024 Cameroon Exam Assistant. All rights reserved.
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
