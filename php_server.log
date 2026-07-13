@@ -1,0 +1,67 @@
+[Mon Jul 13 05:22:03 2026] PHP 8.3.6 Development Server (http://localhost:8000) started
+[Mon Jul 13 05:22:05 2026] [::1]:43614 Accepted
+[Mon Jul 13 05:22:05 2026] [::1]:43614 [200]: GET /api/endpoints/exams.php
+[Mon Jul 13 05:22:05 2026] [::1]:43614 Closing
+[Mon Jul 13 05:22:18 2026] [::1]:39958 Accepted
+[Mon Jul 13 05:22:18 2026] [::1]:39958 [200]: POST /api/endpoints/auth.php
+[Mon Jul 13 05:22:18 2026] [::1]:39958 Closing
+[Mon Jul 13 05:22:18 2026] [::1]:39966 Accepted
+[Mon Jul 13 05:22:19 2026] [::1]:39966 [200]: POST /api/endpoints/auth.php
+[Mon Jul 13 05:22:19 2026] [::1]:39966 Closing
+[Mon Jul 13 05:22:27 2026] [::1]:37234 Accepted
+[Mon Jul 13 05:22:27 2026] [::1]:37234 [200]: POST /api/endpoints/auth.php
+[Mon Jul 13 05:22:27 2026] [::1]:37234 Closing
+[Mon Jul 13 05:22:28 2026] [::1]:37238 Accepted
+[Mon Jul 13 05:22:28 2026] [::1]:37238 [200]: POST /api/endpoints/chat.php
+[Mon Jul 13 05:22:28 2026] [::1]:37238 Closing
+[Mon Jul 13 05:24:43 2026] [::1]:52016 Accepted
+[Mon Jul 13 05:24:43 2026] [::1]:52016 [200]: GET /web/public/index.html
+[Mon Jul 13 05:24:43 2026] [::1]:52016 Closing
+[Mon Jul 13 05:24:44 2026] [::1]:52020 Accepted
+[Mon Jul 13 05:24:44 2026] [::1]:52020 [200]: GET /web/public/style.css
+[Mon Jul 13 05:24:44 2026] [::1]:52020 Closing
+[Mon Jul 13 05:24:48 2026] [::1]:52030 Accepted
+[Mon Jul 13 05:24:48 2026] [::1]:52030 [200]: POST /api/endpoints/auth.php
+[Mon Jul 13 05:24:48 2026] [::1]:52030 Closing
+[Mon Jul 13 05:24:48 2026] [::1]:52040 Accepted
+[Mon Jul 13 05:24:48 2026] [::1]:52040 [200]: GET /api/endpoints/exams.php
+[Mon Jul 13 05:24:48 2026] [::1]:52040 Closing
+[Mon Jul 13 05:25:37 2026] [::1]:33300 Accepted
+[Mon Jul 13 05:25:37 2026] [::1]:33300 [200]: GET /web/public/index.html
+[Mon Jul 13 05:25:37 2026] [::1]:33300 Closing
+[Mon Jul 13 05:25:37 2026] [::1]:33312 Accepted
+[Mon Jul 13 05:25:37 2026] [::1]:33312 [200]: GET /web/public/style.css
+[Mon Jul 13 05:25:37 2026] [::1]:33312 Closing
+[Mon Jul 13 05:25:42 2026] [::1]:58058 Accepted
+[Mon Jul 13 05:25:42 2026] [::1]:58058 [200]: POST /api/endpoints/auth.php
+[Mon Jul 13 05:25:42 2026] [::1]:58058 Closing
+[Mon Jul 13 05:25:42 2026] [::1]:58074 Accepted
+[Mon Jul 13 05:25:42 2026] [::1]:58074 [200]: GET /api/endpoints/exams.php
+[Mon Jul 13 05:25:42 2026] [::1]:58074 Closing
+[Mon Jul 13 05:25:46 2026] [::1]:58086 Accepted
+[Mon Jul 13 05:25:46 2026] [::1]:58086 [200]: POST /api/endpoints/chat.php
+[Mon Jul 13 05:25:46 2026] [::1]:58086 Closing
+[Mon Jul 13 05:28:20 2026] [::1]:54042 Accepted
+[Mon Jul 13 05:28:20 2026] [::1]:54042 [200]: GET /web/public/index.html
+[Mon Jul 13 05:28:20 2026] [::1]:54042 Closing
+[Mon Jul 13 05:28:20 2026] [::1]:54046 Accepted
+[Mon Jul 13 05:28:20 2026] [::1]:54046 [200]: GET /web/public/style.css
+[Mon Jul 13 05:28:20 2026] [::1]:54046 Closing
+[Mon Jul 13 05:28:25 2026] [::1]:48112 Accepted
+[Mon Jul 13 05:28:25 2026] [::1]:48112 [409]: POST /api/endpoints/auth.php
+[Mon Jul 13 05:28:25 2026] [::1]:48112 Closing
+[Mon Jul 13 05:29:23 2026] [::1]:55630 Accepted
+[Mon Jul 13 05:29:23 2026] [::1]:55630 [200]: GET /web/public/index.html
+[Mon Jul 13 05:29:23 2026] [::1]:55630 Closing
+[Mon Jul 13 05:29:23 2026] [::1]:55638 Accepted
+[Mon Jul 13 05:29:23 2026] [::1]:55638 [200]: GET /web/public/style.css
+[Mon Jul 13 05:29:23 2026] [::1]:55638 Closing
+[Mon Jul 13 05:29:28 2026] [::1]:55646 Accepted
+[Mon Jul 13 05:29:28 2026] [::1]:55646 [200]: POST /api/endpoints/auth.php
+[Mon Jul 13 05:29:28 2026] [::1]:55646 Closing
+[Mon Jul 13 05:29:28 2026] [::1]:55654 Accepted
+[Mon Jul 13 05:29:28 2026] [::1]:55654 [200]: GET /api/endpoints/exams.php
+[Mon Jul 13 05:29:28 2026] [::1]:55654 Closing
+[Mon Jul 13 05:29:32 2026] [::1]:35268 Accepted
+[Mon Jul 13 05:29:32 2026] [::1]:35268 [200]: POST /api/endpoints/chat.php
+[Mon Jul 13 05:29:32 2026] [::1]:35268 Closing
