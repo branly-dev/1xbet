@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistant Examens Cameroun</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-blue-50">
+    <div id="root"></div>
+    <script type="text/babel">
+        // Basic App Component for direct browser execution
+        const { useState, useEffect } = React;
+
+        const translations = {
+            fr: {
+                title: "Assistant Examens Cameroun",
+                login: "Connexion",
+                register: "S'inscrire",
+                username: "Nom d'utilisateur",
+                password: "Mot de passe",
+                send: "Envoyer",
+                selectExam: "Choisir un examen",
+                selectSubject: "Choisir une matière",
+                welcome: "Bienvenue dans votre assistant de révision IA.",
+                placeholder: "Posez votre question ici...",
+                logout: "Déconnexion"
+            },
+            en: {
+                title: "Cameroon Exam Assistant",
+                login: "Login",
+                register: "Register",
+                username: "Username",
+                password: "Password",
+                send: "Send",
+                selectExam: "Select an exam",
+                selectSubject: "Select a subject",
+                welcome: "Welcome to your AI revision assistant.",
+                placeholder: "Ask your question here...",
+                logout: "Logout"
+            }
+        };
+
+        function App() {
+            const [lang, setLang] = useState('fr');
+            const [user, setUser] = useState(null);
+            const [view, setView] = useState('login'); // login, register, chat
+            const [exams, setExams] = useState([]);
+            const [selectedExam, setSelectedExam] = useState('');
+            const [selectedSubject, setSelectedSubject] = useState('');
+            const [messages, setMessages] = useState([]);
+            const [input, setInput] = useState('');
+            const [loading, setLoading] = useState(false);
+
+            const t = translations[lang];
+            const API_BASE = '/api/endpoints';
+
+            useEffect(() => {
+                fetch(`${API_BASE}/exams.php`)
+                    .then(res => res.json())
+                    .then(data => setExams(data));
+            }, []);
+
+            const handleAuth = async (e, action) => {
+                e.preventDefault();
+                const username = e.target.username.value;
+                const password = e.target.password.value;
+                const res = await fetch(`${API_BASE}/auth.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, username, password })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    if (action === 'login') {
+                        setUser({ username, token: data.token });
+                        setView('chat');
+                    } else {
+                        alert('Inscription réussie, connectez-vous.');
+                        setView('login');
+                    }
+                } else {
+                    alert(data.error);
+                }
+            };
+
+            const sendMessage = async (e) => {
+                e.preventDefault();
+                if (!input.trim()) return;
+
+                const userMsg = { role: 'user', text: input };
+                setMessages([...messages, userMsg]);
+                setInput('');
+                setLoading(true);
+
+                const res = await fetch(`${API_BASE}/chat.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user.token}`
+                    },
+                    body: JSON.stringify({
+                        message: input,
+                        exam_id: selectedExam,
+                        subject_id: selectedSubject,
+                        language: lang
+                    })
+                });
+                const data = await res.json();
+                setMessages(prev => [...prev, { role: 'ai', text: data.response }]);
+                setLoading(false);
+            };
+
+            if (view === 'chat' && user) {
+                return (
+                    <div className="max-w-4xl mx-auto p-4 flex flex-col h-screen">
+                        <header className="flex justify-between items-center mb-4 bg-white p-4 rounded-lg shadow">
+                            <h1 className="text-xl font-bold text-blue-800">{t.title}</h1>
+                            <div className="flex gap-4">
+                                <select value={lang} onChange={(e) => setLang(e.target.value)} className="border p-1 rounded">
+                                    <option value="fr">Français</option>
+                                    <option value="en">English</option>
+                                </select>
+                                <button onClick={() => setView('login')} className="text-red-500 font-semibold">{t.logout}</button>
+                            </div>
+                        </header>
+
+                        <div className="flex gap-4 mb-4">
+                            <select className="flex-1 p-2 rounded border" onChange={e => setSelectedExam(e.target.value)}>
+                                <option value="">{t.selectExam}</option>
+                                {exams.map(e => <option key={e.id} value={e.id}>{lang === 'fr' ? e.name_fr : e.name_en}</option>)}
+                            </select>
+                            <select className="flex-1 p-2 rounded border" onChange={e => setSelectedSubject(e.target.value)}>
+                                <option value="">{t.selectSubject}</option>
+                                {exams.find(ex => ex.id == selectedExam)?.subjects.map(s => (
+                                    <option key={s.id} value={s.id}>{lang === 'fr' ? s.name_fr : s.name_en}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="flex-1 overflow-y-auto bg-white rounded-lg shadow p-4 mb-4">
+                            {messages.length === 0 && <p className="text-gray-500 text-center mt-10">{t.welcome}</p>}
+                            {messages.map((m, i) => (
+                                <div key={i} className={`mb-4 ${m.role === 'user' ? 'text-right' : 'text-left'}`}>
+                                    <span className={`inline-block p-3 rounded-lg ${m.role === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-800'}`}>
+                                        {m.text}
+                                    </span>
+                                </div>
+                            ))}
+                            {loading && <div className="text-center text-gray-400 italic">...</div>}
+                        </div>
+
+                        <form onSubmit={sendMessage} className="flex gap-2">
+                            <input
+                                type="text"
+                                value={input}
+                                onChange={e => setInput(e.target.value)}
+                                placeholder={t.placeholder}
+                                className="flex-1 p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                            <button type="submit" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+                                {t.send}
+                            </button>
+                        </form>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="min-h-screen flex items-center justify-center p-4">
+                    <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+                        <div className="flex justify-center mb-6">
+                            <div className="flex gap-2 bg-gray-100 p-1 rounded-lg">
+                                <button onClick={() => setLang('fr')} className={`px-3 py-1 rounded ${lang === 'fr' ? 'bg-white shadow' : ''}`}>FR</button>
+                                <button onClick={() => setLang('en')} className={`px-3 py-1 rounded ${lang === 'en' ? 'bg-white shadow' : ''}`}>EN</button>
+                            </div>
+                        </div>
+                        <h2 className="text-2xl font-bold text-center mb-8 text-blue-900">{view === 'login' ? t.login : t.register}</h2>
+                        <form onSubmit={(e) => handleAuth(e, view)}>
+                            <div className="mb-4">
+                                <label className="block text-gray-700 mb-2">{t.username}</label>
+                                <input name="username" type="text" required className="w-full p-3 border rounded-lg" />
+                            </div>
+                            <div className="mb-6">
+                                <label className="block text-gray-700 mb-2">{t.password}</label>
+                                <input name="password" type="password" required className="w-full p-3 border rounded-lg" />
+                            </div>
+                            <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 mb-4">
+                                {view === 'login' ? t.login : t.register}
+                            </button>
+                            <p className="text-center text-gray-600">
+                                {view === 'login' ? (
+                                    <a href="#" onClick={() => setView('register')} className="text-blue-600 font-semibold">{t.register}</a>
+                                ) : (
+                                    <a href="#" onClick={() => setView('login')} className="text-blue-600 font-semibold">{t.login}</a>
+                                )}
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
