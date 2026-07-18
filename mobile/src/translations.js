@@ -1,0 +1,42 @@
+export const translations = {
+  fr: {
+    login: "Connexion",
+    register: "S'inscrire",
+    username: "Nom d'utilisateur",
+    password: "Mot de passe",
+    dontHaveAccount: "Pas de compte ? S'inscrire",
+    alreadyHaveAccount: "Déjà un compte ? Se connecter",
+    examAssistant: "Assistant d'Examen",
+    selectExam: "Choisir un examen",
+    selectSubject: "Choisir une matière",
+    typeMessage: "Tapez votre question...",
+    send: "Envoyer",
+    logout: "Déconnexion",
+    hi: "Salut",
+    thinking: "Réflexion en cours...",
+    error: "Erreur",
+    success: "Succès",
+    registered: "Inscription réussie",
+    connectionFailed: "Échec de la connexion"
+  },
+  en: {
+    login: "Login",
+    register: "Register",
+    username: "Username",
+    password: "Password",
+    dontHaveAccount: "No account? Register",
+    alreadyHaveAccount: "Already have an account? Login",
+    examAssistant: "Exam Assistant",
+    selectExam: "Select an exam",
+    selectSubject: "Select a subject",
+    typeMessage: "Type your question...",
+    send: "Send",
+    logout: "Logout",
+    hi: "Hi",
+    thinking: "Thinking...",
+    error: "Error",
+    success: "Success",
+    registered: "Registered successfully",
+    connectionFailed: "Connection failed"
+  }
+};
