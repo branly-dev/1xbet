@@ -288,28 +288,28 @@
                                 <span x-text="t('card_rooms_qty')">8 Chambres Disponibles</span>
                             </div>
                             <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur-md text-white text-xs font-semibold px-2.5 py-1 rounded-md flex items-center gap-1.5">
-                                <i class="fa-solid fa-umbrella-beach text-amber-400"></i>
-                                <span x-text="t('card_rooms_tag')">2 avec Balcon</span>
+                                <i class="fa-solid fa-expand text-blue-400"></i>
+                                <span x-text="t('card_rooms_tag')">Assez Grandes & Équipées</span>
                             </div>
                         </div>
                         <div class="p-6 sm:p-8 flex-grow flex flex-col justify-between">
                             <div class="space-y-3">
-                                <h3 class="text-xl font-bold text-slate-900" x-text="t('card_rooms_title')">Chambres Standard Modernes</h3>
+                                <h3 class="text-xl font-bold text-slate-900" x-text="t('card_rooms_title')">Grandes Chambres Modernes</h3>
                                 <p class="text-sm text-slate-600 leading-relaxed" x-text="t('card_rooms_desc')">
-                                    Idéales pour les étudiants de l'IAI cherchant calme et commodité. Pièce spacieuse avec espace bureau, garde-robe intégrée, chauffe-eau et douche interne.
+                                    Nos chambres individuelles de premier choix sont calmes, très spacieuses (assez grandes) et conçues pour votre confort avec douche interne et cuisine privée.
                                 </p>
                                 <ul class="space-y-2 pt-2 text-xs text-slate-500">
                                     <li class="flex items-center gap-2">
                                         <i class="fa-solid fa-check text-emerald-500"></i>
-                                        <span x-text="t('feat_rooms_1')">Espace bureau pour révisions</span>
+                                        <span x-text="t('feat_rooms_1')">Chambres assez grandes et bien aérées</span>
                                     </li>
                                     <li class="flex items-center gap-2">
                                         <i class="fa-solid fa-check text-emerald-500"></i>
-                                        <span x-text="t('feat_rooms_2')">Douche privative équipée avec eau chaude</span>
+                                        <span x-text="t('feat_rooms_2')">Douche interne privative</span>
                                     </li>
                                     <li class="flex items-center gap-2">
                                         <i class="fa-solid fa-check text-emerald-500"></i>
-                                        <span x-text="t('feat_rooms_3')">2 chambres exclusives possèdent un balcon</span>
+                                        <span x-text="t('feat_rooms_3')">Cuisine privée intégrée</span>
                                     </li>
                                 </ul>
                             </div>
@@ -321,7 +321,7 @@
                                 <div class="flex items-center justify-between">
                                     <div>
                                         <p class="text-xs text-slate-400" x-text="t('starting_from')">À partir de</p>
-                                        <p class="text-lg font-bold text-slate-900">50 000 <span class="text-xs font-semibold">FCFA / mois</span></p>
+                                        <p class="text-lg font-bold text-slate-900"><span x-text="config.prices.chambre"></span> <span class="text-xs font-semibold">FCFA / mois</span></p>
                                     </div>
                                     <a href="#contact" @click="selectedOption = 'chambre'" :style="'background-color: ' + config.colors.primary + '15; color: ' + config.colors.primary" class="font-bold px-4 py-2.5 rounded-xl transition text-xs flex items-center gap-1.5 hover:brightness-95">
                                         <span x-text="t('btn_reserve')">Réserver</span>
@@ -340,8 +340,8 @@
                                 <span x-text="t('card_studios_qty')">4 Studios Disponibles</span>
                             </div>
                             <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur-md text-white text-xs font-semibold px-2.5 py-1 rounded-md flex items-center gap-1.5">
-                                <i class="fa-solid fa-umbrella-beach text-amber-400"></i>
-                                <span x-text="t('card_studios_tag')">2 avec Balcon</span>
+                                <i class="fa-solid fa-house text-amber-400"></i>
+                                <span x-text="t('card_studios_tag')">Salon + Chambre + Douche</span>
                             </div>
                             <div class="absolute top-4 right-4 bg-amber-500 text-white text-xs font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider shadow">
                                 <span x-text="t('card_studios_badge')">Populaire</span>
@@ -351,20 +351,20 @@
                             <div class="space-y-3">
                                 <h3 class="text-xl font-bold text-slate-900" x-text="t('card_studios_title')">Studios Prêts-à-Vivre</h3>
                                 <p class="text-sm text-slate-600 leading-relaxed" x-text="t('card_studios_desc')">
-                                    L'équilibre parfait entre chambre et appartement. Une grande chambre, une cuisine américaine, un salon et un chauffe-eau installé.
+                                    Le parfait espace autonome comprenant un agréable salon, une chambre confortable séparée, une douche privative moderne et une cuisine.
                                 </p>
                                 <ul class="space-y-2 pt-2 text-xs text-slate-500">
                                     <li class="flex items-center gap-2">
                                         <i class="fa-solid fa-check text-emerald-500"></i>
-                                        <span x-text="t('feat_studios_1')">Cuisine avec comptoir et rangement</span>
+                                        <span x-text="t('feat_studios_1')">Un salon accueillant et une chambre indépendante</span>
                                     </li>
                                     <li class="flex items-center gap-2">
                                         <i class="fa-solid fa-check text-emerald-500"></i>
-                                        <span x-text="t('feat_studios_2')">Douche privative moderne avec chauffe-eau</span>
+                                        <span x-text="t('feat_studios_2')">Une douche moderne avec chauffe-eau</span>
                                     </li>
                                     <li class="flex items-center gap-2">
                                         <i class="fa-solid fa-check text-emerald-500"></i>
-                                        <span x-text="t('feat_studios_3')">2 studios possèdent un magnifique balcon</span>
+                                        <span x-text="t('feat_studios_3')">Une cuisine fonctionnelle pour préparer vos repas</span>
                                     </li>
                                 </ul>
                             </div>
@@ -376,7 +376,7 @@
                                 <div class="flex items-center justify-between">
                                     <div>
                                         <p class="text-xs text-slate-400" x-text="t('starting_from')">À partir de</p>
-                                        <p class="text-lg font-bold text-slate-900">95 000 <span class="text-xs font-semibold">FCFA / mois</span></p>
+                                        <p class="text-lg font-bold text-slate-900"><span x-text="config.prices.studio"></span> <span class="text-xs font-semibold">FCFA / mois</span></p>
                                     </div>
                                     <a href="#contact" @click="selectedOption = 'studio'" :style="'background-color: ' + config.colors.primary" class="text-white font-bold px-4 py-2.5 rounded-xl transition text-xs flex items-center gap-1.5 shadow-sm hover:brightness-110">
                                         <span x-text="t('btn_reserve')">Réserver</span>
@@ -395,27 +395,27 @@
                                 <span x-text="t('card_apt_qty')">1 Appartement Exclusif</span>
                             </div>
                             <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur-md text-white text-xs font-semibold px-2.5 py-1 rounded-md">
-                                <span x-text="t('card_apt_tag')">Haut Standing Premium</span>
+                                <span x-text="t('card_apt_tag')">Haut Standing VIP (Sans Balcon)</span>
                             </div>
                         </div>
                         <div class="p-6 sm:p-8 flex-grow flex flex-col justify-between">
                             <div class="space-y-3">
-                                <h3 class="text-xl font-bold text-slate-900" x-text="t('card_apt_title')">Grand Appartement Prestige</h3>
+                                <h3 class="text-xl font-bold text-slate-900" x-text="t('card_apt_title')">Appartement de Prestige VIP</h3>
                                 <p class="text-sm text-slate-600 leading-relaxed" x-text="t('card_apt_desc')">
-                                    Une magnifique pièce de vie pour un séjour VIP. Finitions de choix, très grand salon d'honneur lumineux, chauffe-eau installé et grand balcon.
+                                    Le summum du standing à Manon City. Cet appartement d'exception se compose d'un grand salon chaleureux, d'une cuisine moderne de style américaine, d'une grande chambre parentale équipée de sa propre douche privée, d'une autre chambre indépendante et d'une deuxième douche.
                                 </p>
                                 <ul class="space-y-2 pt-2 text-xs text-slate-500">
                                     <li class="flex items-center gap-2">
                                         <i class="fa-solid fa-check text-emerald-500"></i>
-                                        <span x-text="t('feat_apt_1')">Multiples chambres de maître</span>
+                                        <span x-text="t('feat_apt_1')">1 chambre parentale avec sa propre douche interne</span>
                                     </li>
                                     <li class="flex items-center gap-2">
                                         <i class="fa-solid fa-check text-emerald-500"></i>
-                                        <span x-text="t('feat_apt_2')">Eau chaude fournie via chauffe-eau centralisé</span>
+                                        <span x-text="t('feat_apt_2')">Une autre chambre et une autre douche indépendante</span>
                                     </li>
                                     <li class="flex items-center gap-2">
                                         <i class="fa-solid fa-check text-emerald-500"></i>
-                                        <span x-text="t('feat_apt_3')">Grand balcon d'honneur avec vue dégagée</span>
+                                        <span x-text="t('feat_apt_3')">Grand salon d'honneur et cuisine de style américaine</span>
                                     </li>
                                 </ul>
                             </div>
@@ -427,7 +427,7 @@
                                 <div class="flex items-center justify-between">
                                     <div>
                                         <p class="text-xs text-slate-400" x-text="t('starting_from')">À partir de</p>
-                                        <p class="text-lg font-bold text-slate-900">220 000 <span class="text-xs font-semibold">FCFA / mois</span></p>
+                                        <p class="text-lg font-bold text-slate-900"><span x-text="config.prices.appartement"></span> <span class="text-xs font-semibold">FCFA / mois</span></p>
                                     </div>
                                     <a href="#contact" @click="selectedOption = 'appartement'" :style="'background-color: ' + config.colors.primary + '15; color: ' + config.colors.primary" class="font-bold px-4 py-2.5 rounded-xl transition text-xs flex items-center gap-1.5 hover:brightness-95">
                                         <span x-text="t('btn_reserve')">Réserver</span>
@@ -826,6 +826,11 @@
                         email: 'contact@manoncity-residence.com',
                         mapsLink: 'https://maps.app.goo.gl/E4m1HJz7fRKYfBsg8?g_st=aw'
                     },
+                    prices: {
+                        chambre: '50 000',
+                        studio: '95 000',
+                        appartement: '220 000'
+                    },
                     photos: {
                         hero: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=800',
                         // 4 high-quality photos for Chambres
@@ -934,31 +939,31 @@
                         acc_title: "Découvrez nos espaces conçus pour vous",
 
                         card_rooms_qty: "8 Chambres Disponibles",
-                        card_rooms_tag: "2 Chambres avec Balcon",
-                        card_rooms_title: "Chambres Individuelles Modernes",
-                        card_rooms_desc: "Parfaitement adaptées pour les étudiants de l'IAI qui souhaitent se concentrer. Spacieuses, calmes, comprenant un bureau de travail, placards, chauffe-eau et douche interne.",
-                        feat_rooms_1: "Espace de travail confortable intégré",
-                        feat_rooms_2: "Douche privative équipée avec eau chaude (chauffe-eau)",
-                        feat_rooms_3: "2 chambres exclusives possèdent un balcon privatif",
+                        card_rooms_tag: "Assez Grandes & Équipées",
+                        card_rooms_title: "Grandes Chambres Modernes",
+                        card_rooms_desc: "Nos chambres individuelles de premier choix sont calmes, très spacieuses (assez grandes) et conçues pour votre confort avec douche interne et cuisine privée.",
+                        feat_rooms_1: "Chambres assez grandes et bien aérées",
+                        feat_rooms_2: "Douche interne privative",
+                        feat_rooms_3: "Cuisine privée intégrée",
                         view_all_photos: "Voir les 4 photos",
 
                         card_studios_qty: "4 Studios Disponibles",
-                        card_studios_tag: "2 Studios avec Balcon",
+                        card_studios_tag: "Salon + Chambre + Douche",
                         card_studios_badge: "Populaire",
-                        card_studios_title: "Studios Modernes Tout Équipés",
-                        card_studios_desc: "Comprenant une spacieuse pièce de vie, une véritable cuisine américaine avec placard de rangement, une douche moderne avec chauffe-eau et balcon.",
-                        feat_studios_1: "Cuisine moderne avec évier et plans de travail",
-                        feat_studios_2: "Douche équipée d'un chauffe-eau individuel",
-                        feat_studios_3: "2 studios possèdent un superbe balcon",
+                        card_studios_title: "Studios Prêts-à-Vivre",
+                        card_studios_desc: "Le parfait espace autonome comprenant un agréable salon, une chambre confortable séparée, une douche privative moderne et une cuisine.",
+                        feat_studios_1: "Un salon accueillant et une chambre indépendante",
+                        feat_studios_2: "Une douche moderne avec chauffe-eau",
+                        feat_studios_3: "Une cuisine fonctionnelle pour préparer vos repas",
                         view_all_photos_studio: "Voir les 5 photos",
 
                         card_apt_qty: "1 Appartement Prestige",
-                        card_apt_tag: "Exclusif / Haut Standing",
-                        card_apt_title: "Appartement Privé Prestige",
-                        card_apt_desc: "Le summum du standing à Manon City. Grand salon familial lumineux, vaste cuisine moderne premium, chambres avec placards, chauffe-eau et grand balcon.",
-                        feat_apt_1: "Multiples chambres spacieuses de maître",
-                        feat_apt_2: "Chauffe-eau installé pour un confort thermal absolu",
-                        feat_apt_3: "Vaste balcon d'honneur avec vue panoramique",
+                        card_apt_tag: "Haut Standing VIP (Sans Balcon)",
+                        card_apt_title: "Appartement de Prestige VIP",
+                        card_apt_desc: "Le summum du standing à Manon City. Cet appartement d'exception se compose d'un grand salon chaleureux, d'une cuisine moderne de style américaine, d'une grande chambre parentale équipée de sa propre douche privée, d'une autre chambre indépendante et d'une deuxième douche.",
+                        feat_apt_1: "1 chambre parentale avec sa propre douche interne",
+                        feat_apt_2: "Une autre chambre et une autre douche indépendante",
+                        feat_apt_3: "Grand salon d'honneur et cuisine de style américaine",
                         view_all_photos_apt: "Voir les 8 photos",
 
                         starting_from: "À partir de",
@@ -1061,31 +1066,31 @@
                         acc_title: "Explore our apartments designed with you in mind",
 
                         card_rooms_qty: "8 Rooms Available",
-                        card_rooms_tag: "2 Rooms with Balcony",
-                        card_rooms_title: "Modern Single Rooms",
-                        card_rooms_desc: "Perfectly designed for IAI students to focus and study. Spacious, quiet rooms featuring a study desk, built-in wardrobes, water heater and clean private bathroom.",
-                        feat_rooms_1: "Integrated comfortable workspace desk",
-                        feat_rooms_2: "Fully equipped private bathroom with hot water",
-                        feat_rooms_3: "2 exclusive single rooms feature a private balcony",
+                        card_rooms_tag: "Spacious & Equipped",
+                        card_rooms_title: "Large Modern Rooms",
+                        card_rooms_desc: "Our top-tier single rooms are quiet, highly spacious (quite large) and designed for your convenience with a private shower and inside kitchen.",
+                        feat_rooms_1: "Quite spacious and well-ventilated rooms",
+                        feat_rooms_2: "Private inside shower",
+                        feat_rooms_3: "Integrated private kitchen",
                         view_all_photos: "View all 4 photos",
 
                         card_studios_qty: "4 Studios Available",
-                        card_studios_tag: "2 Studios with Balcony",
+                        card_studios_tag: "Living Room + Bedroom + Shower",
                         card_studios_badge: "Popular",
-                        card_studios_title: "Fully Fitted Modern Studios",
-                        card_studios_desc: "Includes a spacious open-concept room, kitchen counter with cabinets, elegant shower with water heater and private balcony.",
-                        feat_studios_1: "Kitchen counter with sink and cabinet space",
-                        feat_studios_2: "Private bathroom equipped with individual water heater",
-                        feat_studios_3: "2 modern studios feature a private balcony",
+                        card_studios_title: "Ready-To-Live Studios",
+                        card_studios_desc: "A perfect independent flat featuring a cozy living room, a separate comfortable bedroom, a modern private shower, and a kitchen.",
+                        feat_studios_1: "A welcoming living room and an independent bedroom",
+                        feat_studios_2: "Modern shower equipped with individual water heater",
+                        feat_studios_3: "Functional kitchen for all your culinary needs",
                         view_all_photos_studio: "View all 5 photos",
 
                         card_apt_qty: "1 Luxury Apartment",
-                        card_apt_tag: "Exclusive / High Standing",
-                        card_apt_title: "Exclusive Premium Apartment",
-                        card_apt_desc: "The ultimate premium experience at Manon City. Vast family living room, prestigious modern open-plan kitchen, master suite with water heater and large balcony.",
-                        feat_apt_1: "Multiple spacious master bedrooms",
-                        feat_apt_2: "Dedicated water heater installed for cozy hot baths",
-                        feat_apt_3: "Large main balcony with open panoramic view",
+                        card_apt_tag: "Premium VIP (No Balcony)",
+                        card_apt_title: "VIP Premium Apartment",
+                        card_apt_desc: "The pinnacle of high-standing living at Manon City. This magnificent apartment consists of a large cozy living room, a modern American-style kitchen, 1 master bedroom equipped with its own private shower, an additional separate bedroom, and a second shower.",
+                        feat_apt_1: "1 master bedroom with its own private shower",
+                        feat_apt_2: "Another independent bedroom and a separate shower",
+                        feat_apt_3: "Spacious main living room and American-style kitchen",
                         view_all_photos_apt: "View all 8 photos",
 
                         starting_from: "Starting from",
