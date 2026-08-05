@@ -86,7 +86,7 @@ function App() {
     }, [activeTab, token]);
 
     const fetchProducts = async () => {
-        let url = `/api/endpoints/products.php?`;
+        let url = `../../api/endpoints/products.php?`;
         if (searchQuery) url += `search=${encodeURIComponent(searchQuery)}&`;
         if (categoryFilter) url += `category=${encodeURIComponent(categoryFilter)}&`;
         if (priceFilter) url += `max_price=${priceFilter}&`;
@@ -106,7 +106,7 @@ function App() {
     const runGeminiAIRecommendation = async () => {
         if (!aiQuery) return;
         try {
-            const res = await fetch(`/api/endpoints/products.php?search=${encodeURIComponent(aiQuery)}`);
+            const res = await fetch(`../../api/endpoints/products.php?search=${encodeURIComponent(aiQuery)}`);
             if (res.ok) {
                 const data = await res.json();
                 setAiRecommendedProducts(data);
@@ -118,7 +118,7 @@ function App() {
 
     const fetchOrders = async () => {
         try {
-            const res = await fetch('/api/endpoints/orders.php', {
+            const res = await fetch('../../api/endpoints/orders.php', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -132,7 +132,7 @@ function App() {
 
     const fetchDisputes = async () => {
         try {
-            const res = await fetch('/api/endpoints/disputes.php', {
+            const res = await fetch('../../api/endpoints/disputes.php', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -146,7 +146,7 @@ function App() {
 
     const fetchAdminUsers = async () => {
         try {
-            const res = await fetch('/api/endpoints/admin.php?action=users', {
+            const res = await fetch('../../api/endpoints/admin.php?action=users', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -160,7 +160,7 @@ function App() {
 
     const fetchAdminProducts = async () => {
         try {
-            const res = await fetch('/api/endpoints/admin.php?action=products', {
+            const res = await fetch('../../api/endpoints/admin.php?action=products', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -184,7 +184,7 @@ function App() {
     const placeOrder = async () => {
         if (!selectedProduct) return;
         try {
-            const res = await fetch('/api/endpoints/orders.php', {
+            const res = await fetch('../../api/endpoints/orders.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -213,7 +213,7 @@ function App() {
     const payOrder = async () => {
         if (!paymentOrder) return;
         try {
-            const res = await fetch('/api/endpoints/payments.php', {
+            const res = await fetch('../../api/endpoints/payments.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -233,7 +233,7 @@ function App() {
                 // In production, the operator triggers this automatically on success.
                 if (data.simulation_webhook_payload) {
                     setTimeout(async () => {
-                        await fetch('/api/endpoints/payments.php?webhook=1', {
+                        await fetch('../../api/endpoints/payments.php?webhook=1', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(data.simulation_webhook_payload)
@@ -255,7 +255,7 @@ function App() {
     const submitRating = async () => {
         if (!ratingOrder) return;
         try {
-            const res = await fetch('/api/endpoints/ratings.php', {
+            const res = await fetch('../../api/endpoints/ratings.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -284,7 +284,7 @@ function App() {
     const submitDispute = async () => {
         if (!disputeOrder) return;
         try {
-            const res = await fetch('/api/endpoints/disputes.php', {
+            const res = await fetch('../../api/endpoints/disputes.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -313,7 +313,7 @@ function App() {
     const addProduct = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch('/api/endpoints/products.php', {
+            const res = await fetch('../../api/endpoints/products.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -347,7 +347,7 @@ function App() {
     // Admin moderate user status
     const moderateUser = async (userId, statut) => {
         try {
-            const res = await fetch('/api/endpoints/admin.php', {
+            const res = await fetch('../../api/endpoints/admin.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -371,7 +371,7 @@ function App() {
     // Admin moderate product status
     const moderateProduct = async (productId, statut) => {
         try {
-            const res = await fetch('/api/endpoints/admin.php', {
+            const res = await fetch('../../api/endpoints/admin.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -395,7 +395,7 @@ function App() {
     // Admin Gemini AI evaluation check
     const geminiVerifyProduct = async (productId) => {
         try {
-            const res = await fetch('/api/endpoints/admin.php', {
+            const res = await fetch('../../api/endpoints/admin.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -420,7 +420,7 @@ function App() {
     const submitDisputeResolution = async () => {
         if (!resolveDispute) return;
         try {
-            const res = await fetch('/api/endpoints/admin.php', {
+            const res = await fetch('../../api/endpoints/admin.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -699,7 +699,7 @@ function App() {
                                                         {user.role === 'vendeur' && o.statut === 'paye' && (
                                                             <button
                                                                 onClick={async () => {
-                                                                    await fetch('/api/endpoints/orders.php', {
+                                                                    await fetch('../../api/endpoints/orders.php', {
                                                                         method: 'PUT',
                                                                         headers: {
                                                                             'Content-Type': 'application/json',

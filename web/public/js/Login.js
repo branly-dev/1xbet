@@ -24,7 +24,7 @@ function Login({ setToken, setUser, lang }) {
             : { action: 'login', email, password };
 
         try {
-            const res = await fetch('/api/endpoints/auth.php', {
+            const res = await fetch('../../api/endpoints/auth.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)

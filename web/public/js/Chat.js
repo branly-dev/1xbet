@@ -23,7 +23,7 @@ function Chat({ token, lang, user }) {
 
     const fetchContacts = async () => {
         try {
-            const res = await fetch('/api/endpoints/messages.php', {
+            const res = await fetch('../../api/endpoints/messages.php', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -37,7 +37,7 @@ function Chat({ token, lang, user }) {
 
     const fetchMessages = async (contactId) => {
         try {
-            const res = await fetch(`/api/endpoints/messages.php?with_id=${contactId}`, {
+            const res = await fetch(`../../api/endpoints/messages.php?with_id=${contactId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -54,7 +54,7 @@ function Chat({ token, lang, user }) {
         if (!newMessage.trim() || !selectedContact) return;
 
         try {
-            const res = await fetch('/api/endpoints/messages.php', {
+            const res = await fetch('../../api/endpoints/messages.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
