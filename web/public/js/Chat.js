@@ -1,5 +1,5 @@
 /**
- * Zero-build React Chat / Messages component.
+ * Zero-build React Chat / Messages component with professional SaaS communication UI.
  */
 
 function Chat({ token, lang, user }) {
@@ -76,13 +76,21 @@ function Chat({ token, lang, user }) {
     };
 
     return (
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white rounded-xl shadow-md border overflow-hidden min-h-[500px]">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-0 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden min-h-[550px]">
             {/* Contacts list */}
-            <div class="border-r p-4 bg-gray-50">
-                <h3 class="font-bold text-lg mb-4 text-gray-700">{t.chat}</h3>
-                <div class="space-y-2">
+            <div class="border-r border-slate-100 p-4 bg-slate-50/50 flex flex-col">
+                <div class="pb-3 border-b border-slate-100 mb-4">
+                    <h3 class="font-extrabold text-lg text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-address-book text-indigo-600"></i>
+                        <span>{t.chat} Contacts</span>
+                    </h3>
+                </div>
+                <div class="space-y-2 flex-1 overflow-y-auto max-h-[420px]">
                     {contacts.length === 0 ? (
-                        <p class="text-sm text-gray-500 italic">Aucune conversation active.</p>
+                        <div class="text-center py-12 text-slate-400 font-semibold space-y-2">
+                            <i class="fa-regular fa-folder-open text-3xl"></i>
+                            <p class="text-xs">Aucune conversation active.</p>
+                        </div>
                     ) : (
                         contacts.map(c => (
                             <button
@@ -91,13 +99,24 @@ function Chat({ token, lang, user }) {
                                     setSelectedContact(c);
                                     fetchMessages(c.id);
                                 }}
-                                class={`w-full text-left p-3 rounded-lg font-semibold flex flex-col transition ${
-                                    selectedContact?.id === c.id ? 'bg-indigo-600 text-white' : 'hover:bg-gray-100'
+                                class={`w-full text-left p-3.5 rounded-xl font-bold flex flex-col gap-1 transition ${
+                                    selectedContact?.id === c.id
+                                        ? 'bg-indigo-600 text-white shadow-md shadow-indigo-100'
+                                        : 'hover:bg-slate-100 text-slate-700 bg-white border border-slate-100'
                                 }`}
                             >
-                                <span>{c.nom}</span>
-                                <span class={`text-xs ${selectedContact?.id === c.id ? 'text-indigo-100' : 'text-gray-500'}`}>
-                                    {c.role === 'vendeur' ? t.seller : t.buyer}
+                                <div class="flex justify-between items-center w-full">
+                                    <span class="text-sm tracking-tight">{c.nom}</span>
+                                    <span class={`text-[10px] uppercase font-black px-2 py-0.5 rounded-full ${
+                                        selectedContact?.id === c.id
+                                            ? 'bg-indigo-750 text-indigo-100'
+                                            : 'bg-slate-100 text-slate-500'
+                                    }`}>
+                                        {c.role === 'vendeur' ? t.seller : t.buyer}
+                                    </span>
+                                </div>
+                                <span class={`text-xs font-semibold ${selectedContact?.id === c.id ? 'text-indigo-100' : 'text-slate-400'}`}>
+                                    {c.email}
                                 </span>
                             </button>
                         ))
@@ -106,51 +125,67 @@ function Chat({ token, lang, user }) {
             </div>
 
             {/* Conversation detail */}
-            <div class="col-span-2 flex flex-col justify-between p-4">
+            <div class="col-span-2 flex flex-col justify-between p-6 bg-white">
                 {selectedContact ? (
                     <>
                         {/* Selected Header */}
-                        <div class="border-b pb-3 mb-3 flex justify-between items-center">
-                            <span class="font-bold text-lg text-indigo-700">{selectedContact.nom}</span>
-                            <span class="bg-indigo-50 text-indigo-600 px-2.5 py-1 text-xs rounded-full font-bold">
+                        <div class="border-b border-slate-100 pb-4 mb-4 flex justify-between items-center">
+                            <div class="flex items-center gap-3">
+                                <div class="h-10 w-10 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-600 font-black text-sm">
+                                    {selectedContact.nom.substring(0, 2).toUpperCase()}
+                                </div>
+                                <div>
+                                    <span class="font-extrabold text-base text-slate-900 block leading-tight">{selectedContact.nom}</span>
+                                    <span class="text-xs text-slate-400 font-semibold">Discussion directe active</span>
+                                </div>
+                            </div>
+                            <span class="bg-indigo-50 text-indigo-700 px-3 py-1 text-xs rounded-full font-extrabold uppercase tracking-wider">
                                 {selectedContact.role === 'vendeur' ? t.seller : t.buyer}
                             </span>
                         </div>
 
                         {/* Message list */}
-                        <div class="flex-1 overflow-y-auto space-y-3 pr-2 max-h-[350px]">
+                        <div class="flex-1 overflow-y-auto space-y-4 pr-2 max-h-[350px]">
                             {messages.map(m => (
                                 <div key={m.id} class={`flex flex-col ${m.expediteur_id === user.id ? 'items-end' : 'items-start'}`}>
-                                    <div class={`px-4 py-2 rounded-xl text-sm max-w-[80%] shadow-sm ${
-                                        m.expediteur_id === user.id ? 'bg-indigo-600 text-white rounded-tr-none' : 'bg-gray-100 text-gray-800 rounded-tl-none'
+                                    <div class={`px-4 py-3 rounded-2xl text-sm max-w-[75%] shadow-sm leading-relaxed font-semibold ${
+                                        m.expediteur_id === user.id
+                                            ? 'bg-indigo-600 text-white rounded-tr-none'
+                                            : 'bg-slate-100 text-slate-800 rounded-tl-none border border-slate-200/50'
                                     }`}>
                                         <p>{m.contenu}</p>
                                     </div>
-                                    <span class="text-[10px] text-gray-400 mt-1">{m.cree_le}</span>
+                                    <span class="text-[9px] text-slate-400 font-bold mt-1 uppercase tracking-wide">
+                                        {m.cree_le} {m.expediteur_id === user.id && m.lu === 1 ? '• Lu' : ''}
+                                    </span>
                                 </div>
                             ))}
                         </div>
 
                         {/* Input Form */}
-                        <form onSubmit={handleSend} class="border-t pt-3 mt-3 flex gap-2">
+                        <form onSubmit={handleSend} class="border-t border-slate-100 pt-4 mt-4 flex gap-2">
                             <input
                                 type="text"
                                 value={newMessage}
                                 onChange={e => setNewMessage(e.target.value)}
                                 placeholder={t.write_message}
-                                class="flex-1 px-4 py-2 border rounded-full focus:ring focus:ring-indigo-200 outline-none"
+                                class="flex-1 px-5 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-100 outline-none text-sm font-semibold"
                             />
-                            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-2 rounded-full transition">
-                                {t.send}
+                            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold px-6 py-3 rounded-xl transition shadow-md shadow-indigo-100 flex items-center gap-1.5 text-sm">
+                                <span>{t.send}</span>
+                                <i class="fa-regular fa-paper-plane"></i>
                             </button>
                         </form>
                     </>
                 ) : (
-                    <div class="flex-1 flex flex-col items-center justify-center text-gray-400">
-                        <svg class="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                        </svg>
-                        <p class="text-sm font-semibold">Sélectionnez une discussion pour commencer à échanger</p>
+                    <div class="flex-1 flex flex-col items-center justify-center text-slate-400/80 py-16 space-y-4">
+                        <div class="h-16 w-16 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300">
+                            <i class="fa-solid fa-message-captions text-4xl"></i>
+                        </div>
+                        <div class="text-center space-y-1">
+                            <p class="text-base font-extrabold text-slate-700">Aucune discussion active</p>
+                            <p class="text-xs text-slate-400 font-bold">Sélectionnez une discussion de commerçant à gauche pour commencer à échanger</p>
+                        </div>
                     </div>
                 )}
             </div>
@@ -158,5 +193,5 @@ function Chat({ token, lang, user }) {
     );
 }
 
-// Attach component to global window scope so other scripts loaded without bundler can resolve it
+// Attach component to global window scope
 window.Chat = Chat;
