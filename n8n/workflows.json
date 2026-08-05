@@ -1,0 +1,144 @@
+{
+  "name": "Marketplace Notification & AI Moderation Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "notifications-webhook",
+        "options": {}
+      },
+      "name": "Webhook Trigger (Notifications)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$node[\"Webhook Trigger (Notifications)\"].json[\"body\"][\"type\"]}}",
+              "operation": "equal",
+              "value2": "nouvelle_commande"
+            }
+          ]
+        }
+      },
+      "name": "Is New Order?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.sms-provider.cm/send",
+        "sendBody": true,
+        "bodyParameters": {
+          "to": "={{$node[\"Webhook Trigger (Notifications)\"].json[\"body\"][\"phone\"]}}",
+          "message": "={{$node[\"Webhook Trigger (Notifications)\"].json[\"body\"][\"message\"]}}"
+        },
+        "options": {}
+      },
+      "name": "Send SMS (Orange/MTN MoMo network)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        700,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.email-provider.cm/send",
+        "sendBody": true,
+        "bodyParameters": {
+          "to": "={{$node[\"Webhook Trigger (Notifications)\"].json[\"body\"][\"email\"]}}",
+          "subject": "Marché Camerounais - Mise à jour",
+          "body": "={{$node[\"Webhook Trigger (Notifications)\"].json[\"body\"][\"message\"]}}"
+        },
+        "options": {}
+      },
+      "name": "Send Email",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        700,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "path": "gemini-moderation-webhook",
+        "options": {}
+      },
+      "name": "Webhook Trigger (Gemini Ads Moderation)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent",
+        "sendBody": true,
+        "bodyParameters": {
+          "contents": [
+            {
+              "parts": [
+                {
+                  "text": "=You are an expert AI content moderator for Cameroon Marketplace. Classify if this product title & description contains forbidden items (weapons, drugs, explicit fraud/scams, fake bills). Return a clean JSON object with keys: approved (boolean), reason (string in French/English). Input: {{$node[\"Webhook Trigger (Gemini Ads Moderation)\"].json[\"body\"][\"content\"]}}"
+                }
+              ]
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Gemini AI Evaluation Node",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        450,
+        600
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger (Notifications)": {
+      "main": [
+        [
+          {
+            "node": "Is New Order?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is New Order?": {
+      "main": [
+        [
+          {
+            "node": "Send SMS (Orange/MTN MoMo network)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
