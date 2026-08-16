@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manon City - Résidence Haut Standing près de l'IAI Cameroun</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Dynamic Color Styles based on JS configuration variables -->
+    <style id="theme-styles">
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body x-data="appState()" class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col" :style="'--color-primary: ' + config.colors.primary">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center space-x-2">
+                    <div :style="'background-color: ' + config.colors.primary" class="text-white p-2.5 rounded-xl shadow-md flex items-center justify-center">
+                        <i class="fa-solid fa-building-user text-xl"></i>
+                    </div>
+                    <span :style="'color: ' + config.colors.primary" class="text-xl sm:text-2xl font-bold tracking-tight">
+                        Manon City
+                    </span>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#hero" class="text-slate-600 hover:text-blue-600 font-medium transition-colors" x-text="t('nav_home')"></a>
+                    <a href="#about" class="text-slate-600 hover:text-blue-600 font-medium transition-colors" x-text="t('nav_about')"></a>
+                    <a href="#accommodations" class="text-slate-600 hover:text-blue-600 font-medium transition-colors" x-text="t('nav_accommodations')"></a>
+                    <a href="#amenities" class="text-slate-600 hover:text-blue-600 font-medium transition-colors" x-text="t('nav_amenities')"></a>
+                    <a href="#contact" class="text-slate-600 hover:text-blue-600 font-medium transition-colors" x-text="t('nav_contact')"></a>
+
+                    <!-- Language Switcher (Desktop) -->
+                    <div class="flex items-center space-x-1 bg-slate-100 p-1 rounded-lg">
+                        <button @click="setLanguage('fr')" :class="lang === 'fr' ? 'bg-white shadow-sm' : 'text-slate-600 hover:text-slate-950'" :style="lang === 'fr' ? 'color: ' + config.colors.primary : ''" class="px-3 py-1.5 text-xs font-semibold rounded-md transition-all duration-200">
+                            FR
+                        </button>
+                        <button @click="setLanguage('en')" :class="lang === 'en' ? 'bg-white shadow-sm' : 'text-slate-600 hover:text-slate-950'" :style="lang === 'en' ? 'color: ' + config.colors.primary : ''" class="px-3 py-1.5 text-xs font-semibold rounded-md transition-all duration-200">
+                            EN
+                        </button>
+                    </div>
+                </nav>
+
+                <!-- Mobile Menu Button & Lang Switcher -->
+                <div class="flex items-center space-x-4 md:hidden">
+                    <!-- Mini Lang Switcher -->
+                    <div class="flex items-center space-x-1 bg-slate-100 p-1 rounded-lg text-xs">
+                        <button @click="setLanguage('fr')" :class="lang === 'fr' ? 'bg-white shadow-sm' : 'text-slate-600'" :style="lang === 'fr' ? 'color: ' + config.colors.primary : ''" class="px-2 py-1 font-semibold rounded transition-all">
+                            FR
+                        </button>
+                        <button @click="setLanguage('en')" :class="lang === 'en' ? 'bg-white shadow-sm' : 'text-slate-600'" :style="lang === 'en' ? 'color: ' + config.colors.primary : ''" class="px-2 py-1 font-semibold rounded transition-all">
+                            EN
+                        </button>
+                    </div>
+
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-slate-600 hover:text-slate-900 focus:outline-none p-1.5" aria-label="Toggle Menu">
+                        <i class="fa-solid" :class="mobileMenuOpen ? 'fa-xmark text-2xl' : 'fa-bars text-2xl'"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2" class="md:hidden border-t border-slate-100 bg-white shadow-inner" style="display: none;">
+            <div class="px-2 pt-2 pb-4 space-y-1">
+                <a href="#hero" @click="mobileMenuOpen = false" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition" x-text="t('nav_home')"></a>
+                <a href="#about" @click="mobileMenuOpen = false" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition" x-text="t('nav_about')"></a>
+                <a href="#accommodations" @click="mobileMenuOpen = false" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition" x-text="t('nav_accommodations')"></a>
+                <a href="#amenities" @click="mobileMenuOpen = false" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition" x-text="t('nav_amenities')"></a>
+                <a href="#contact" @click="mobileMenuOpen = false" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition" x-text="t('nav_contact')"></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        <!-- Hero Section -->
+        <section id="hero" class="relative overflow-hidden bg-gradient-to-b from-blue-50/70 via-white to-slate-50 py-16 sm:py-24">
+            <div class="absolute inset-y-0 right-0 w-1/2 bg-blue-500/5 rounded-l-[100px] transform skew-x-12 hidden lg:block"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <!-- Hero Text -->
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                        <div class="inline-flex items-center space-x-2 bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide" :style="'color: ' + config.colors.primary + '; background-color: ' + config.colors.primary + '15'">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span x-text="t('hero_badge')"> Près de l'IAI Cameroun</span>
+                        </div>
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                            <span x-text="t('hero_title_1')">Manon City : Résidence</span> <br class="hidden sm:inline">
+                            <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent" :style="'background-image: linear-gradient(to right, ' + config.colors.primary + ', ' + config.colors.secondary + ')'" x-text="t('hero_title_2')">Haut Standing & Confort</span>
+                        </h1>
+                        <p class="text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0" x-text="t('hero_desc')">
+                            Un cadre d'exception moderne et entièrement équipé pour étudiants, professionnels et universitaires. Vivez le confort en toute sécurité à seulement 2 minutes de l'IAI Cameroun.
+                        </p>
+
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-4">
+                            <a href="#contact" :style="'background-color: ' + config.colors.primary" class="inline-flex items-center justify-center px-8 py-4 text-white font-bold rounded-xl shadow-lg hover:brightness-110 transition duration-200 gap-2 transform hover:-translate-y-0.5">
+                                <i class="fa-regular fa-calendar-check"></i>
+                                <span x-text="t('hero_cta_book')">Réserver maintenant</span>
+                            </a>
+                            <a href="#accommodations" class="inline-flex items-center justify-center px-8 py-4 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold rounded-xl shadow-sm transition duration-200 gap-2">
+                                <span x-text="t('hero_cta_explore')">Voir les logements</span>
+                            </a>
+                        </div>
+
+                        <!-- Key Mini Badges -->
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 pt-8 border-t border-slate-200/60 max-w-2xl mx-auto lg:mx-0">
+                            <div class="flex items-center space-x-2 text-slate-600">
+                                <i class="fa-solid fa-droplet text-blue-500 text-lg"></i>
+                                <span class="text-xs font-semibold" x-text="t('badge_water')">Eau Gratuite</span>
+                            </div>
+                            <div class="flex items-center space-x-2 text-slate-600">
+                                <i class="fa-solid fa-charging-station text-amber-500 text-lg"></i>
+                                <span class="text-xs font-semibold" x-text="t('badge_generator')">Générateur</span>
+                            </div>
+                            <div class="flex items-center space-x-2 text-slate-600">
+                                <i class="fa-solid fa-square-parking text-emerald-500 text-lg"></i>
+                                <span class="text-xs font-semibold" x-text="t('badge_parking')">Parking</span>
+                            </div>
+                            <div class="flex items-center space-x-2 text-slate-600">
+                                <i class="fa-solid fa-temperature-three-quarters text-orange-500 text-lg"></i>
+                                <span class="text-xs font-semibold" x-text="t('badge_heater')">Chauffe-eau</span>
+                            </div>
+                            <div class="flex items-center space-x-2 text-slate-600">
+                                <i class="fa-solid fa-shield-halved text-rose-500 text-lg"></i>
+                                <span class="text-xs font-semibold" x-text="t('badge_security')">Sécurisé</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hero Visual / Showcase -->
+                    <div class="lg:col-span-5 relative mt-8 lg:mt-0">
+                        <div :style="'background-color: ' + config.colors.primary" class="absolute inset-0 rounded-3xl rotate-3 transform scale-95 opacity-5 blur-sm"></div>
+                        <div class="relative bg-white border border-slate-100 p-4 rounded-3xl shadow-xl">
+                            <!-- Image container (Placeholder of premium building) -->
+                            <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-slate-100">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/10 to-transparent z-10"></div>
+                                <img :src="config.photos.hero" alt="Manon City Residence" class="w-full h-full object-cover">
+                                <div class="absolute bottom-4 left-4 right-4 z-20 text-white">
+                                    <p class="text-xs uppercase font-semibold tracking-wider text-blue-300" x-text="t('hero_visual_sub')">Cadre Haut Standing</p>
+                                    <p class="text-lg font-bold" x-text="t('hero_visual_title')">Manon City - IAI</p>
+                                </div>
+                            </div>
+
+                            <!-- Highlights stats -->
+                            <div class="grid grid-cols-3 gap-2 mt-4 text-center">
+                                <div class="p-3 bg-blue-50/50 rounded-xl border border-blue-50">
+                                    <p class="text-xl font-extrabold" :style="'color: ' + config.colors.primary">8</p>
+                                    <p class="text-[10px] text-slate-500 font-semibold uppercase" x-text="t('cat_rooms')">Chambres</p>
+                                </div>
+                                <div class="p-3 bg-indigo-50/50 rounded-xl border border-indigo-50">
+                                    <p class="text-xl font-extrabold text-indigo-600">4</p>
+                                    <p class="text-[10px] text-slate-500 font-semibold uppercase" x-text="t('cat_studios')">Studios</p>
+                                </div>
+                                <div class="p-3 bg-emerald-50/50 rounded-xl border border-emerald-50">
+                                    <p class="text-xl font-extrabold text-emerald-600">1</p>
+                                    <p class="text-[10px] text-slate-500 font-semibold uppercase" x-text="t('cat_apartment')">Appartement</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-16 sm:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                    <h2 class="text-xs uppercase tracking-widest font-extrabold" :style="'color: ' + config.colors.primary" x-text="t('about_subtitle')">À Propos de la Résidence</h2>
+                    <p class="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight" x-text="t('about_title')">La combinaison parfaite entre confort et proximité</p>
+                    <div class="w-16 h-1 mx-auto rounded-full" :style="'background-color: ' + config.colors.primary"></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- Left Column: text -->
+                    <div class="space-y-6">
+                        <h3 class="text-2xl font-bold text-slate-900" x-text="t('about_sec_title')">Pourquoi choisir notre résidence ?</h3>
+                        <p class="text-slate-600 leading-relaxed" x-text="t('about_desc_1')">
+                            Notre bâtiment est idéalement situé à quelques pas de l'Institut Africain d'Informatique (IAI) Cameroun. Conçu pour répondre aux exigences de confort et de sécurité des étudiants ainsi que des jeunes professionnels, il se distingue par des infrastructures modernes et un approvisionnement continu en ressources vitales.
+                        </p>
+                        <p class="text-slate-600 leading-relaxed" x-text="t('about_desc_2')">
+                            Que vous soyez étudiant cherchant le calme pour vos études, ou un professionnel recherchant un espace de haut standing, nous disposons du logement parfait pour vous. Fini le stress des coupures d'eau et de courant : notre forage haut débit et notre groupe électrogène de secours vous garantissent un quotidien fluide et serein.
+                        </p>
+
+                        <!-- List characteristics -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                            <div class="flex items-start space-x-3">
+                                <div class="bg-blue-100 text-blue-600 p-2 rounded-lg mt-0.5" :style="'color: ' + config.colors.primary + '; background-color: ' + config.colors.primary + '15'">
+                                    <i class="fa-solid fa-graduation-cap text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-base" x-text="t('char_proxi_title')">Proximité Immédiate</h4>
+                                    <p class="text-xs text-slate-500" x-text="t('char_proxi_desc')">À 2 minutes à pied du campus de l'IAI.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="bg-blue-100 text-blue-600 p-2 rounded-lg mt-0.5" :style="'color: ' + config.colors.primary + '; background-color: ' + config.colors.primary + '15'">
+                                    <i class="fa-solid fa-house-circle-check text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-base" x-text="t('char_quality_title')">Finition de Choix</h4>
+                                    <p class="text-xs text-slate-500" x-text="t('char_quality_desc')">Matériaux premium, peinture soignée et carrelage moderne.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="bg-blue-100 text-blue-600 p-2 rounded-lg mt-0.5" :style="'color: ' + config.colors.primary + '; background-color: ' + config.colors.primary + '15'">
+                                    <i class="fa-solid fa-faucet-drip text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-base" x-text="t('char_water_title')">Forage & Autonomie</h4>
+                                    <p class="text-xs text-slate-500" x-text="t('char_water_desc')">Eau courante gratuite et continue 24h/24.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="bg-blue-100 text-blue-600 p-2 rounded-lg mt-0.5" :style="'color: ' + config.colors.primary + '; background-color: ' + config.colors.primary + '15'">
+                                    <i class="fa-solid fa-temperature-three-quarters text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-base" x-text="t('char_heater_title')">Chauffe-eau Électrique</h4>
+                                    <p class="text-xs text-slate-500" x-text="t('char_heater_desc')">Eau chaude disponible pour vos douches.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Visual Layout of the complex -->
+                    <div class="relative bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-100/80">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-4">
+                                <div class="rounded-2xl overflow-hidden shadow-md h-40">
+                                    <img :src="config.photos.chambre[0]" alt="Chambre moderne" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                                </div>
+                                <div class="rounded-2xl overflow-hidden shadow-md h-56">
+                                    <img :src="config.photos.studio[0]" alt="Studio équipé" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                                </div>
+                            </div>
+                            <div class="space-y-4 pt-6">
+                                <div class="rounded-2xl overflow-hidden shadow-md h-56">
+                                    <img :src="config.photos.appartement[0]" alt="Appartement salon" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                                </div>
+                                <div class="rounded-2xl overflow-hidden shadow-md h-40 flex flex-col justify-center p-6 text-white" :style="'background-color: ' + config.colors.primary">
+                                    <i class="fa-solid fa-heart-pulse text-3xl mb-2"></i>
+                                    <p class="text-lg font-bold leading-tight" x-text="t('about_box_title')">Tranquillité d'esprit</p>
+                                    <p class="text-xs text-blue-100 mt-1" x-text="t('about_box_desc')">Concentrez-vous sur vos études ou votre travail, nous gérons le reste.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accommodations Section -->
+        <section id="accommodations" class="py-16 sm:py-24 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                    <h2 class="text-xs uppercase tracking-widest font-extrabold" :style="'color: ' + config.colors.primary" x-text="t('acc_subtitle')">Nos Offres de Logement</h2>
+                    <p class="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight" x-text="t('acc_title')">Découvrez nos espaces conçus pour vous</p>
+                    <div class="w-16 h-1 mx-auto rounded-full" :style="'background-color: ' + config.colors.primary"></div>
+                </div>
+
+                <!-- Accommodations Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                    <!-- 8 Chambres -->
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 border border-slate-100 flex flex-col h-full">
+                        <div class="relative h-64 bg-slate-100">
+                            <img :src="config.photos.chambre[0]" alt="Chambres" class="w-full h-full object-cover">
+                            <div :style="'background-color: ' + config.colors.primary" class="absolute top-4 left-4 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
+                                <span x-text="t('card_rooms_qty')">8 Chambres Disponibles</span>
+                            </div>
+                            <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur-md text-white text-xs font-semibold px-2.5 py-1 rounded-md flex items-center gap-1.5">
+                                <i class="fa-solid fa-expand text-blue-400"></i>
+                                <span x-text="t('card_rooms_tag')">Assez Grandes & Équipées</span>
+                            </div>
+                        </div>
+                        <div class="p-6 sm:p-8 flex-grow flex flex-col justify-between">
+                            <div class="space-y-3">
+                                <h3 class="text-xl font-bold text-slate-900" x-text="t('card_rooms_title')">Grandes Chambres Modernes</h3>
+                                <p class="text-sm text-slate-600 leading-relaxed" x-text="t('card_rooms_desc')">
+                                    Nos chambres individuelles de premier choix sont calmes, très spacieuses (assez grandes) et conçues pour votre confort avec douche interne et cuisine privée.
+                                </p>
+                                <ul class="space-y-2 pt-2 text-xs text-slate-500">
+                                    <li class="flex items-center gap-2">
+                                        <i class="fa-solid fa-check text-emerald-500"></i>
+                                        <span x-text="t('feat_rooms_1')">Chambres assez grandes et bien aérées</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <i class="fa-solid fa-check text-emerald-500"></i>
+                                        <span x-text="t('feat_rooms_2')">Douche interne privative</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <i class="fa-solid fa-check text-emerald-500"></i>
+                                        <span x-text="t('feat_rooms_3')">Cuisine privée intégrée</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="pt-6 mt-6 border-t border-slate-100">
+                                <button @click="openGallery('chambre')" class="w-full mb-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2">
+                                    <i class="fa-regular fa-images"></i>
+                                    <span x-text="t('view_all_photos')">Voir les 4 photos</span>
+                                </button>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-xs text-slate-400" x-text="t('starting_from')">À partir de</p>
+                                        <p class="text-lg font-bold text-slate-900"><span x-text="config.prices.chambre"></span> <span class="text-xs font-semibold">FCFA / mois</span></p>
+                                    </div>
+                                    <a href="#contact" @click="selectedOption = 'chambre'" :style="'background-color: ' + config.colors.primary + '15; color: ' + config.colors.primary" class="font-bold px-4 py-2.5 rounded-xl transition text-xs flex items-center gap-1.5 hover:brightness-95">
+                                        <span x-text="t('btn_reserve')">Réserver</span>
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4 Studios -->
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 border border-slate-100 flex flex-col h-full transform lg:-translate-y-2 ring-2 ring-blue-500 ring-offset-4 ring-offset-slate-50">
+                        <div class="relative h-64 bg-slate-100">
+                            <img :src="config.photos.studio[0]" alt="Studios" class="w-full h-full object-cover">
+                            <div class="absolute top-4 left-4 bg-indigo-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
+                                <span x-text="t('card_studios_qty')">4 Studios Disponibles</span>
+                            </div>
+                            <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur-md text-white text-xs font-semibold px-2.5 py-1 rounded-md flex items-center gap-1.5">
+                                <i class="fa-solid fa-house text-amber-400"></i>
+                                <span x-text="t('card_studios_tag')">Salon + Chambre + Douche</span>
+                            </div>
+                            <div class="absolute top-4 right-4 bg-amber-500 text-white text-xs font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider shadow">
+                                <span x-text="t('card_studios_badge')">Populaire</span>
+                            </div>
+                        </div>
+                        <div class="p-6 sm:p-8 flex-grow flex flex-col justify-between">
+                            <div class="space-y-3">
+                                <h3 class="text-xl font-bold text-slate-900" x-text="t('card_studios_title')">Studios Prêts-à-Vivre</h3>
+                                <p class="text-sm text-slate-600 leading-relaxed" x-text="t('card_studios_desc')">
+                                    Le parfait espace autonome comprenant un agréable salon, une chambre confortable séparée, une douche privative moderne et une cuisine.
+                                </p>
+                                <ul class="space-y-2 pt-2 text-xs text-slate-500">
+                                    <li class="flex items-center gap-2">
+                                        <i class="fa-solid fa-check text-emerald-500"></i>
+                                        <span x-text="t('feat_studios_1')">Un salon accueillant et une chambre indépendante</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <i class="fa-solid fa-check text-emerald-500"></i>
+                                        <span x-text="t('feat_studios_2')">Une douche moderne avec chauffe-eau</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <i class="fa-solid fa-check text-emerald-500"></i>
+                                        <span x-text="t('feat_studios_3')">Une cuisine fonctionnelle pour préparer vos repas</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="pt-6 mt-6 border-t border-slate-100">
+                                <button @click="openGallery('studio')" class="w-full mb-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2">
+                                    <i class="fa-regular fa-images"></i>
+                                    <span x-text="t('view_all_photos_studio')">Voir les 5 photos</span>
+                                </button>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-xs text-slate-400" x-text="t('starting_from')">À partir de</p>
+                                        <p class="text-lg font-bold text-slate-900"><span x-text="config.prices.studio"></span> <span class="text-xs font-semibold">FCFA / mois</span></p>
+                                    </div>
+                                    <a href="#contact" @click="selectedOption = 'studio'" :style="'background-color: ' + config.colors.primary" class="text-white font-bold px-4 py-2.5 rounded-xl transition text-xs flex items-center gap-1.5 shadow-sm hover:brightness-110">
+                                        <span x-text="t('btn_reserve')">Réserver</span>
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 1 Appartement Haut Standing -->
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 border border-slate-100 flex flex-col h-full">
+                        <div class="relative h-64 bg-slate-100">
+                            <img :src="config.photos.appartement[0]" alt="Appartement" class="w-full h-full object-cover">
+                            <div class="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
+                                <span x-text="t('card_apt_qty')">1 Appartement Exclusif</span>
+                            </div>
+                            <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur-md text-white text-xs font-semibold px-2.5 py-1 rounded-md">
+                                <span x-text="t('card_apt_tag')">Haut Standing VIP (Sans Balcon)</span>
+                            </div>
+                        </div>
+                        <div class="p-6 sm:p-8 flex-grow flex flex-col justify-between">
+                            <div class="space-y-3">
+                                <h3 class="text-xl font-bold text-slate-900" x-text="t('card_apt_title')">Appartement de Prestige VIP</h3>
+                                <p class="text-sm text-slate-600 leading-relaxed" x-text="t('card_apt_desc')">
+                                    Le summum du standing à Manon City. Cet appartement d'exception se compose d'un grand salon chaleureux, d'une cuisine moderne de style américaine, d'une grande chambre parentale équipée de sa propre douche privée, d'une autre chambre indépendante et d'une deuxième douche.
+                                </p>
+                                <ul class="space-y-2 pt-2 text-xs text-slate-500">
+                                    <li class="flex items-center gap-2">
+                                        <i class="fa-solid fa-check text-emerald-500"></i>
+                                        <span x-text="t('feat_apt_1')">1 chambre parentale avec sa propre douche interne</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <i class="fa-solid fa-check text-emerald-500"></i>
+                                        <span x-text="t('feat_apt_2')">Une autre chambre et une autre douche indépendante</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <i class="fa-solid fa-check text-emerald-500"></i>
+                                        <span x-text="t('feat_apt_3')">Grand salon d'honneur et cuisine de style américaine</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="pt-6 mt-6 border-t border-slate-100">
+                                <button @click="openGallery('appartement')" class="w-full mb-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2">
+                                    <i class="fa-regular fa-images"></i>
+                                    <span x-text="t('view_all_photos_apt')">Voir les 8 photos</span>
+                                </button>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-xs text-slate-400" x-text="t('starting_from')">À partir de</p>
+                                        <p class="text-lg font-bold text-slate-900"><span x-text="config.prices.appartement"></span> <span class="text-xs font-semibold">FCFA / mois</span></p>
+                                    </div>
+                                    <a href="#contact" @click="selectedOption = 'appartement'" :style="'background-color: ' + config.colors.primary + '15; color: ' + config.colors.primary" class="font-bold px-4 py-2.5 rounded-xl transition text-xs flex items-center gap-1.5 hover:brightness-95">
+                                        <span x-text="t('btn_reserve')">Réserver</span>
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Lightbox Modal -->
+        <div x-show="galleryOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 backdrop-blur-sm p-4" style="display: none;" @keydown.escape.window="galleryOpen = false">
+            <div class="bg-white rounded-3xl overflow-hidden max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl" @click.away="galleryOpen = false">
+                <!-- Modal Header -->
+                <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+                    <div>
+                        <h4 class="text-xl font-bold text-slate-900" x-text="galleryTitle">Photos du logement</h4>
+                        <p class="text-xs text-slate-500"><span x-text="currentPhotoIndex + 1"></span> / <span x-text="galleryImages.length"></span> photos</p>
+                    </div>
+                    <button @click="galleryOpen = false" class="text-slate-400 hover:text-slate-600 p-2 rounded-xl hover:bg-slate-100 transition">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- Modal Body with active image -->
+                <div class="flex-grow overflow-hidden relative bg-slate-950 flex items-center justify-center min-h-[300px] sm:min-h-[450px]">
+                    <img :src="galleryImages[currentPhotoIndex]" alt="Photo logement" class="max-w-full max-h-[60vh] object-contain">
+
+                    <!-- Prev Button -->
+                    <button @click="prevPhoto()" class="absolute left-4 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition backdrop-blur-md">
+                        <i class="fa-solid fa-chevron-left text-lg"></i>
+                    </button>
+
+                    <!-- Next Button -->
+                    <button @click="nextPhoto()" class="absolute right-4 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition backdrop-blur-md">
+                        <i class="fa-solid fa-chevron-right text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Thumbnail strip -->
+                <div class="p-6 bg-slate-50 border-t border-slate-100 overflow-x-auto flex gap-3 justify-center">
+                    <template x-for="(img, idx) in galleryImages" :key="idx">
+                        <button @click="currentPhotoIndex = idx" class="w-16 h-12 sm:w-20 sm:h-14 rounded-lg overflow-hidden border-2 transition focus:outline-none" :class="currentPhotoIndex === idx ? 'border-blue-600 scale-105' : 'border-transparent opacity-60 hover:opacity-100'">
+                            <img :src="img" class="w-full h-full object-cover">
+                        </button>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!-- Amenities Section -->
+        <section id="amenities" class="py-16 sm:py-24 bg-white relative overflow-hidden">
+            <div class="absolute right-0 top-0 -mt-16 mr-16 w-96 h-96 bg-blue-50 rounded-full filter blur-3xl opacity-60 pointer-events-none"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+                <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                    <h2 class="text-xs uppercase tracking-widest font-extrabold" :style="'color: ' + config.colors.primary" x-text="t('amen_subtitle')">Équipements & Services</h2>
+                    <p class="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight" x-text="t('amen_title')">Votre confort quotidien au centre de notre attention</p>
+                    <div class="w-16 h-1 mx-auto rounded-full" :style="'background-color: ' + config.colors.primary"></div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Amenity: Free Water (Forage) -->
+                    <div class="bg-slate-50 border border-slate-100 p-8 rounded-3xl space-y-4 hover:shadow-md transition duration-200">
+                        <div class="bg-blue-100 text-blue-600 w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-inner" :style="'color: ' + config.colors.primary + '; background-color: ' + config.colors.primary + '15'">
+                            <i class="fa-solid fa-droplet"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900" x-text="t('amen_water_title')">Eau Gratuite (Forage)</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed" x-text="t('amen_water_desc')">
+                            Plus de soucis de coupures de la SNEC. Notre forage moderne fournit de l'eau en permanence, filtrée et entièrement gratuite pour tous les résidents.
+                        </p>
+                    </div>
+
+                    <!-- Amenity: Generator (Groupe Électrogène) -->
+                    <div class="bg-slate-50 border border-slate-100 p-8 rounded-3xl space-y-4 hover:shadow-md transition duration-200">
+                        <div class="bg-amber-100 text-amber-600 w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-inner">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900" x-text="t('amen_gen_title')">Groupe Électrogène</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed" x-text="t('amen_gen_desc')">
+                            La continuité de service électrique est primordiale pour vos études à l'IAI. Un groupe électrogène robuste prend automatiquement le relais lors des coupures.
+                        </p>
+                    </div>
+
+                    <!-- Amenity: Parking -->
+                    <div class="bg-slate-50 border border-slate-100 p-8 rounded-3xl space-y-4 hover:shadow-md transition duration-200">
+                        <div class="bg-emerald-100 text-emerald-600 w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-inner">
+                            <i class="fa-solid fa-car"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900" x-text="t('amen_park_title')">Parking Sécurisé</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed" x-text="t('amen_park_desc')">
+                            Une cour spacieuse et entièrement clôturée, offrant des places de parking sécurisées pour vos motos et voitures, sans frais supplémentaires.
+                        </p>
+                    </div>
+
+                    <!-- Amenity: Chauffe-eau -->
+                    <div class="bg-slate-50 border border-slate-100 p-8 rounded-3xl space-y-4 hover:shadow-md transition duration-200">
+                        <div class="bg-orange-100 text-orange-600 w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-inner">
+                            <i class="fa-solid fa-temperature-three-quarters"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900" x-text="t('amen_heater_title')">Chauffe-eau installé</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed" x-text="t('amen_heater_desc')">
+                            Chaque logement possède un chauffe-eau de qualité pour assurer des douches à la température souhaitée, garantissant un bien-être supérieur.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Callout Banner -->
+                <div class="mt-16 bg-gradient-to-r from-blue-600 to-indigo-800 rounded-3xl p-8 sm:p-12 text-white relative overflow-hidden shadow-lg" :style="'background-image: linear-gradient(to right, ' + config.colors.primary + ', ' + config.colors.secondary + ')'">
+                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.1),transparent)] pointer-events-none"></div>
+                    <div class="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                        <div class="lg:col-span-8 space-y-3">
+                            <span class="text-blue-200 text-xs font-bold uppercase tracking-wider" x-text="t('callout_badge')">Offre Exceptionnelle</span>
+                            <h3 class="text-2xl sm:text-3xl font-extrabold leading-tight" x-text="t('callout_title')">Prêt à emménager pour la nouvelle année académique ?</h3>
+                            <p class="text-blue-100 text-sm max-w-2xl" x-text="t('callout_desc')">
+                                Les places à proximité de l'IAI à Manon City sont très demandées. Réservez dès maintenant pour garantir votre logement moderne avec eau gratuite, groupe électrogène et chauffe-eau.
+                            </p>
+                        </div>
+                        <div class="lg:col-span-4 lg:text-right">
+                            <a href="#contact" class="inline-flex items-center justify-center px-6 py-3.5 bg-white text-slate-900 font-bold rounded-xl shadow hover:bg-slate-50 transition duration-200 text-sm gap-2 w-full lg:w-auto" :style="'color: ' + config.colors.primary">
+                                <i class="fa-regular fa-paper-plane"></i>
+                                <span x-text="t('callout_btn')">Contacter la gérance</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact & Booking Form Section -->
+        <section id="contact" class="py-16 sm:py-24 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                    <h2 class="text-xs uppercase tracking-widest font-extrabold" :style="'color: ' + config.colors.primary" x-text="t('contact_subtitle')">Réservation & Visites</h2>
+                    <p class="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight" x-text="t('contact_title')">Entrez en contact avec notre équipe</p>
+                    <div class="w-16 h-1 mx-auto rounded-full" :style="'background-color: ' + config.colors.primary"></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                    <!-- Left: Contact info Cards -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 space-y-6">
+                            <h3 class="text-xl font-bold text-slate-900" x-text="t('contact_info_title')">Coordonnées</h3>
+                            <p class="text-sm text-slate-600" x-text="t('contact_info_desc')">
+                                Pour toute question, demande de visite de la résidence ou réservation directe, notre équipe de gestion est disponible à tout moment.
+                            </p>
+
+                            <div class="space-y-4 pt-4 border-t border-slate-100">
+                                <!-- Phone -->
+                                <div class="flex items-start space-x-4">
+                                    <div class="bg-blue-50 text-blue-600 p-3 rounded-2xl" :style="'color: ' + config.colors.primary + '; background-color: ' + config.colors.primary + '15'">
+                                        <i class="fa-solid fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider" x-text="t('contact_phone')">Téléphone</p>
+                                        <a :href="'tel:' + config.contact.phone" class="text-slate-900 font-bold hover:text-blue-600 transition" x-text="config.contact.phoneFormatted"></a>
+                                        <p class="text-xs text-slate-500">(Appels & SMS Directs)</p>
+                                    </div>
+                                </div>
+
+                                <!-- WhatsApp -->
+                                <div class="flex items-start space-x-4">
+                                    <div class="bg-emerald-50 text-emerald-600 p-3 rounded-2xl">
+                                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider" x-text="t('contact_whatsapp')">WhatsApp</p>
+                                        <a :href="'https://wa.me/' + config.contact.whatsapp" target="_blank" class="text-slate-900 font-bold hover:text-emerald-600 transition" x-text="config.contact.phoneFormatted"></a>
+                                        <p class="text-xs text-slate-500">(Discuter instantanément)</p>
+                                    </div>
+                                </div>
+
+                                <!-- Location -->
+                                <div class="flex items-start space-x-4">
+                                    <div class="bg-indigo-50 text-indigo-600 p-3 rounded-2xl">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider" x-text="t('contact_location')">Localisation GPS</p>
+                                        <a :href="config.contact.mapsLink" target="_blank" class="text-blue-600 font-bold hover:underline transition flex items-center gap-1">
+                                            <span x-text="t('contact_location_val')">Voir sur Google Maps</span>
+                                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                                        </a>
+                                        <p class="text-xs text-slate-500 mt-1" x-text="t('contact_location_sub')">Près de l'IAI Cameroun, Yaoundé</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ/Note Box -->
+                        <div class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white p-8 rounded-3xl shadow-sm space-y-4">
+                            <h4 class="font-bold text-lg" x-text="t('faq_note_title')">Informations Utiles</h4>
+                            <ul class="space-y-3 text-xs text-slate-300">
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-arrow-right text-blue-400 mt-0.5"></i>
+                                    <span x-text="t('faq_note_1')">Les visites de la résidence sont gratuites tous les jours de 8h à 18h.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-arrow-right text-blue-400 mt-0.5"></i>
+                                    <span x-text="t('faq_note_2')">Un acompte de réservation peut être exigé pour bloquer un logement spécifique.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-arrow-right text-blue-400 mt-0.5"></i>
+                                    <span x-text="t('faq_note_3')">L'accès au parking est inclus dans le bail pour tous les résidents.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Right: Modern form -->
+                    <div class="lg:col-span-7 bg-white p-8 sm:p-10 rounded-3xl shadow-sm border border-slate-100">
+                        <h3 class="text-2xl font-bold text-slate-900 mb-6" x-text="t('form_title')">Demande en Ligne</h3>
+
+                        <form @submit.prevent="submitForm()" class="space-y-6">
+                            <!-- Name -->
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold text-slate-700 uppercase tracking-wider" x-text="t('form_label_name')">Nom Complet</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                                        <i class="fa-solid fa-user"></i>
+                                    </span>
+                                    <input type="text" x-model="formData.name" required class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white transition text-sm">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <!-- Phone -->
+                                <div class="space-y-2">
+                                    <label class="text-xs font-bold text-slate-700 uppercase tracking-wider" x-text="t('form_label_phone')">Numéro de Téléphone</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                                            <i class="fa-solid fa-phone"></i>
+                                        </span>
+                                        <input type="tel" x-model="formData.phone" required placeholder="Ex: +237 6xx xx xx xx" class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white transition text-sm">
+                                    </div>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="space-y-2">
+                                    <label class="text-xs font-bold text-slate-700 uppercase tracking-wider" x-text="t('form_label_email')">Adresse Email (Optionnel)</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                                            <i class="fa-regular fa-envelope"></i>
+                                        </span>
+                                        <input type="email" x-model="formData.email" placeholder="Ex: nom@domaine.com" class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white transition text-sm">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Choice of accommodation -->
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold text-slate-700 uppercase tracking-wider" x-text="t('form_label_choice')">Logement Souhaité</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                                        <i class="fa-solid fa-house-laptop"></i>
+                                    </span>
+                                    <select x-model="selectedOption" class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white transition text-sm appearance-none cursor-pointer">
+                                        <option value="chambre" x-text="t('opt_room')">Chambre Moderne (8 disponibles)</option>
+                                        <option value="studio" x-text="t('opt_studio')">Studio Équipé (4 disponibles)</option>
+                                        <option value="appartement" x-text="t('opt_apt')">Appartement Prestige Haut Standing (1 exclusif)</option>
+                                    </select>
+                                    <span class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-slate-500">
+                                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Message -->
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold text-slate-700 uppercase tracking-wider" x-text="t('form_label_message')">Message / Précisions</label>
+                                <textarea x-model="formData.message" rows="4" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 focus:bg-white transition text-sm"></textarea>
+                            </div>
+
+                            <!-- Submit button -->
+                            <button type="submit" :style="'background-color: ' + config.colors.primary" class="w-full py-4 text-white font-bold rounded-xl shadow-md transition duration-200 flex items-center justify-center gap-2 hover:brightness-110">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span x-text="t('form_btn_submit')">Envoyer ma demande</span>
+                            </button>
+
+                            <!-- Success / Status Message -->
+                            <div x-show="formSubmitted" x-transition class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-sm flex items-center gap-2" style="display: none;">
+                                <i class="fa-solid fa-circle-check text-emerald-500 text-lg"></i>
+                                <span x-text="t('form_success_msg')">Merci ! Votre message a bien été transmis. Notre gérant vous recontactera sous peu.</span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center border-b border-slate-800 pb-12">
+                <!-- Brand -->
+                <div class="md:col-span-4 space-y-3">
+                    <div class="flex items-center space-x-2">
+                        <div :style="'background-color: ' + config.colors.primary" class="text-white p-2.5 rounded-xl shadow-md flex items-center justify-center">
+                            <i class="fa-solid fa-building-user text-lg"></i>
+                        </div>
+                        <span class="text-xl font-bold tracking-tight text-white">
+                            Manon City
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-500 max-w-sm" x-text="t('footer_brand_desc')">
+                        Logements de premier choix de 8 chambres, 4 studios et 1 appartement de haut standing idéalement situés près de l'IAI Cameroun avec toutes commodités.
+                    </p>
+                </div>
+
+                <!-- Fast links -->
+                <div class="md:col-span-4 grid grid-cols-2 gap-4 text-xs">
+                    <div class="space-y-2">
+                        <p class="font-bold text-white uppercase tracking-wider text-[10px]" x-text="t('footer_title_links')">Raccourcis</p>
+                        <a href="#hero" class="block hover:text-white transition" x-text="t('nav_home')">Accueil</a>
+                        <a href="#about" class="block hover:text-white transition" x-text="t('nav_about')">À Propos</a>
+                        <a href="#accommodations" class="block hover:text-white transition" x-text="t('nav_accommodations')">Logements</a>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-bold text-white uppercase tracking-wider text-[10px]">&nbsp;</p>
+                        <a href="#amenities" class="block hover:text-white transition" x-text="t('nav_amenities')">Équipements</a>
+                        <a href="#contact" class="block hover:text-white transition" x-text="t('nav_contact')">Contact</a>
+                    </div>
+                </div>
+
+                <!-- Contact details -->
+                <div class="md:col-span-4 text-xs space-y-2">
+                    <p class="font-bold text-white uppercase tracking-wider text-[10px]" x-text="t('footer_title_contact')">Administration</p>
+                    <p class="flex items-center gap-2">
+                        <i class="fa-solid fa-location-dot" :style="'color: ' + config.colors.primary"></i>
+                        <a :href="config.contact.mapsLink" target="_blank" class="hover:underline text-slate-300">Google Maps - Manon City</a>
+                    </p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-phone" :style="'color: ' + config.colors.primary"></i> <span x-text="config.contact.phoneFormatted"></span></p>
+                </div>
+            </div>
+
+            <!-- Bottom footer -->
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                <p>&copy; 2025 Manon City. <span x-text="t('footer_rights')">Tous droits réservés.</span></p>
+                <div class="flex space-x-4">
+                    <a :href="'https://wa.me/' + config.contact.whatsapp" target="_blank" class="hover:text-emerald-500 transition text-lg"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a :href="'tel:' + config.contact.phone" class="hover:text-blue-500 transition text-lg"><i class="fa-solid fa-phone"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Contact Widgets (WhatsApp & Call) -->
+    <div class="fixed bottom-6 right-6 z-35 flex flex-col gap-3">
+        <!-- Direct WhatsApp -->
+        <a :href="'https://wa.me/' + config.contact.whatsapp + '?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20un%20logement%20dans%20votre%20résidence%20Manon%20City.'" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center text-2xl group relative" aria-label="WhatsApp">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span class="absolute right-full mr-3 bg-slate-900 text-white text-[11px] font-bold py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap shadow-md">
+                Chatter sur WhatsApp
+            </span>
+        </a>
+
+        <!-- Direct Call -->
+        <a :href="'tel:' + config.contact.phone" :style="'background-color: ' + config.colors.primary" class="hover:brightness-110 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center text-xl group relative" aria-label="Appeler">
+            <i class="fa-solid fa-phone"></i>
+            <span class="absolute right-full mr-3 bg-slate-900 text-white text-[11px] font-bold py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap shadow-md">
+                Appeler directement
+            </span>
+        </a>
+    </div>
+
+    <!-- Alpine.js Application State & Translations -->
+    <script>
+        function appState() {
+            return {
+                lang: 'fr',
+                mobileMenuOpen: false,
+                selectedOption: 'chambre',
+                formSubmitted: false,
+                formData: {
+                    name: '',
+                    phone: '',
+                    email: '',
+                    message: ''
+                },
+
+                // Centralized theme colors, contacts and image variables
+                config: {
+                    colors: {
+                        primary: '#2563EB', // Tailwinds blue-600
+                        secondary: '#4F46E5', // Tailwinds indigo-600
+                        success: '#10B981', // Tailwinds emerald-500
+                    },
+                    contact: {
+                        phone: '+237699000000',
+                        phoneFormatted: '+237 699 00 00 00',
+                        whatsapp: '237699000000',
+                        email: 'contact@manoncity-residence.com',
+                        mapsLink: 'https://maps.app.goo.gl/E4m1HJz7fRKYfBsg8?g_st=aw'
+                    },
+                    prices: {
+                        chambre: '50 000',
+                        studio: '95 000',
+                        appartement: '220 000'
+                    },
+                    photos: {
+                        hero: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=800',
+                        // 4 high-quality photos for Chambres
+                        chambre: [
+                            'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&q=80&w=800',
+                            'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=800',
+                            'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&q=80&w=800',
+                            'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=800'
+                        ],
+                        // 5 high-quality photos for Studios
+                        studio: [
+                            'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=800',
+                            'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&q=80&w=800',
+                            'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&q=80&w=800',
+                            'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&q=80&w=800',
+                            'https://images.unsplash.com/photo-1585418649033-9f564757c2bc?auto=format&fit=crop&q=80&w=800'
+                        ],
+                        // 8 high-quality photos for Appartement
+                        appartement: [
+                            'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=800',
+                            'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=800',
+                            'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=800',
+                            'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800',
+                            'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800',
+                            'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=800',
+                            'https://images.unsplash.com/photo-1502005229762-fc1b2b812ca5?auto=format&fit=crop&q=80&w=800',
+                            'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800'
+                        ]
+                    }
+                },
+
+                // Gallery Lightbox Modal State
+                galleryOpen: false,
+                galleryTitle: '',
+                galleryImages: [],
+                currentPhotoIndex: 0,
+
+                openGallery(category) {
+                    this.galleryImages = this.config.photos[category];
+                    this.currentPhotoIndex = 0;
+                    if (category === 'chambre') {
+                        this.galleryTitle = this.lang === 'fr' ? 'Photos de la Chambre Standard' : 'Single Room Photos';
+                    } else if (category === 'studio') {
+                        this.galleryTitle = this.lang === 'fr' ? 'Photos du Studio Prêt-à-Vivre' : 'Modern Studio Photos';
+                    } else {
+                        this.galleryTitle = this.lang === 'fr' ? 'Photos de l\'Appartement Prestige' : 'Luxury Apartment Photos';
+                    }
+                    this.galleryOpen = true;
+                },
+
+                nextPhoto() {
+                    this.currentPhotoIndex = (this.currentPhotoIndex + 1) % this.galleryImages.length;
+                },
+
+                prevPhoto() {
+                    this.currentPhotoIndex = (this.currentPhotoIndex - 1 + this.galleryImages.length) % this.galleryImages.length;
+                },
+
+                // Translations Dictionary
+                translations: {
+                    fr: {
+                        nav_home: "Accueil",
+                        nav_about: "À Propos",
+                        nav_accommodations: "Logements",
+                        nav_amenities: "Équipements",
+                        nav_contact: "Contact & Réservation",
+
+                        hero_badge: "Près de l'IAI Cameroun",
+                        hero_title_1: "Manon City : Résidence",
+                        hero_title_2: "Haut Standing & Confort",
+                        hero_desc: "Un cadre d'exception moderne et entièrement équipé pour étudiants, professionnels et universitaires. Vivez le confort en toute sécurité à seulement 2 minutes de l'IAI Cameroun.",
+                        hero_cta_book: "Réserver maintenant",
+                        hero_cta_explore: "Voir les logements",
+                        hero_visual_sub: "Cadre de choix",
+                        hero_visual_title: "Manon City - IAI",
+
+                        badge_water: "Eau Gratuite (Forage)",
+                        badge_generator: "Groupe Électrogène",
+                        badge_parking: "Parking Sécurisé",
+                        badge_heater: "Chauffe-eau",
+                        badge_security: "Sécurisé 24h/7",
+
+                        cat_rooms: "Chambres",
+                        cat_studios: "Studios",
+                        cat_apartment: "Appartement",
+
+                        about_subtitle: "À Propos de la Résidence",
+                        about_title: "La combinaison parfaite entre confort et proximité",
+                        about_sec_title: "Pourquoi choisir Manon City ?",
+                        about_desc_1: "Notre bâtiment est idéalement situé à quelques pas de l'Institut Africain d'Informatique (IAI) Cameroun. Conçu pour répondre aux exigences de confort et de sécurité des étudiants ainsi que des jeunes professionnels, il se distingue par des infrastructures modernes et un approvisionnement continu en ressources vitales.",
+                        about_desc_2: "Que vous soyez étudiant cherchant le calme pour vos études, ou un professionnel recherchant un espace de haut standing, nous disposons du logement parfait pour vous. Fini le stress des coupures d'eau et de courant : notre forage haut débit, notre groupe électrogène de secours et nos chauffe-eaux individuels vous garantissent un quotidien fluide et serein.",
+
+                        char_proxi_title: "Proximité Immédiate",
+                        char_proxi_desc: "À 2 minutes de marche du campus de l'IAI.",
+                        char_quality_title: "Finition de Choix",
+                        char_quality_desc: "Matériaux premium, carrelage moderne, chauffe-eau et aération soignée.",
+                        char_water_title: "Forage & Autonomie",
+                        char_water_desc: "Eau courante gratuite et continue 24h/24.",
+                        char_heater_title: "Chauffe-eau Électrique",
+                        char_heater_desc: "Eau chaude disponible pour toutes vos douches.",
+
+                        about_box_title: "Tranquillité d'esprit",
+                        about_box_desc: "Concentrez-vous sur vos études ou votre travail, nous gérons le reste.",
+
+                        acc_subtitle: "Nos Offres de Logement",
+                        acc_title: "Découvrez nos espaces conçus pour vous",
+
+                        card_rooms_qty: "8 Chambres Disponibles",
+                        card_rooms_tag: "Assez Grandes & Équipées",
+                        card_rooms_title: "Grandes Chambres Modernes",
+                        card_rooms_desc: "Nos chambres individuelles de premier choix sont calmes, très spacieuses (assez grandes) et conçues pour votre confort avec douche interne et cuisine privée.",
+                        feat_rooms_1: "Chambres assez grandes et bien aérées",
+                        feat_rooms_2: "Douche interne privative",
+                        feat_rooms_3: "Cuisine privée intégrée",
+                        view_all_photos: "Voir les 4 photos",
+
+                        card_studios_qty: "4 Studios Disponibles",
+                        card_studios_tag: "Salon + Chambre + Douche",
+                        card_studios_badge: "Populaire",
+                        card_studios_title: "Studios Prêts-à-Vivre",
+                        card_studios_desc: "Le parfait espace autonome comprenant un agréable salon, une chambre confortable séparée, une douche privative moderne et une cuisine.",
+                        feat_studios_1: "Un salon accueillant et une chambre indépendante",
+                        feat_studios_2: "Une douche moderne avec chauffe-eau",
+                        feat_studios_3: "Une cuisine fonctionnelle pour préparer vos repas",
+                        view_all_photos_studio: "Voir les 5 photos",
+
+                        card_apt_qty: "1 Appartement Prestige",
+                        card_apt_tag: "Haut Standing VIP (Sans Balcon)",
+                        card_apt_title: "Appartement de Prestige VIP",
+                        card_apt_desc: "Le summum du standing à Manon City. Cet appartement d'exception se compose d'un grand salon chaleureux, d'une cuisine moderne de style américaine, d'une grande chambre parentale équipée de sa propre douche privée, d'une autre chambre indépendante et d'une deuxième douche.",
+                        feat_apt_1: "1 chambre parentale avec sa propre douche interne",
+                        feat_apt_2: "Une autre chambre et une autre douche indépendante",
+                        feat_apt_3: "Grand salon d'honneur et cuisine de style américaine",
+                        view_all_photos_apt: "Voir les 8 photos",
+
+                        starting_from: "À partir de",
+                        btn_reserve: "Réserver / Infos",
+
+                        amen_subtitle: "Équipements de Pointe",
+                        amen_title: "Toutes les commodités incluses pour votre tranquillité",
+                        amen_water_title: "Forage (Eau Gratuite)",
+                        amen_water_desc: "Grâce à notre forage privé haut débit, l'eau coule sans interruption et de manière totalement gratuite pour l'ensemble des résidents.",
+                        amen_gen_title: "Groupe Électrogène",
+                        amen_gen_desc: "Un groupe électrogène industriel prend automatiquement le relais lors des coupures de courant pour assurer votre alimentation.",
+                        amen_park_title: "Parking Privé Sécurisé",
+                        amen_park_desc: "Profitez d'un grand parking de cour sécurisé pour vos véhicules ou motos. L'accès est protégé et inclus.",
+                        amen_heater_title: "Chauffe-eau Installé",
+                        amen_heater_desc: "Profitez de douches chaudes reposantes. Des chauffe-eaux individuels de grande capacité équipent nos salles d'eau.",
+
+                        callout_badge: "Disponibilité Limitée",
+                        callout_title: "Préparez votre rentrée universitaire sereinement !",
+                        callout_desc: "Les logements à Manon City avec eau gratuite, groupe électrogène et chauffe-eau se remplissent rapidement. Réservez dès maintenant.",
+                        callout_btn: "Contacter le Gestionnaire",
+
+                        contact_subtitle: "Contact & Visites",
+                        contact_title: "Planifiez une visite ou réservez en ligne",
+                        contact_info_title: "Nous Contacter",
+                        contact_info_desc: "Le gérant de la résidence Manon City est à votre écoute pour organiser une visite guidée gratuite ou bloquer un logement pour vous.",
+                        contact_phone: "Appel Direct",
+                        contact_whatsapp: "WhatsApp Direct",
+                        contact_location: "Localisation GPS",
+                        contact_location_val: "Google Maps - Itinéraire Manon City",
+                        contact_location_sub: "Situé près de l'IAI Cameroun, Yaoundé",
+
+                        faq_note_title: "Bon à Savoir",
+                        faq_note_1: "Les visites de la résidence sont totalement gratuites et possibles tous les jours.",
+                        faq_note_2: "L'eau du forage est filtrée, de qualité supérieure, et 100% gratuite.",
+                        faq_note_3: "Chaque type de logement à Manon City possède un chauffe-eau de qualité.",
+
+                        form_title: "Formulaire de Réservation / Demande",
+                        form_label_name: "Nom Complet",
+                        form_label_phone: "Numéro de Téléphone (WhatsApp de préférence)",
+                        form_label_email: "Adresse Email",
+                        form_label_choice: "Type de Logement Souhaité",
+                        opt_room: "Chambre Individuelle (8 chambres)",
+                        opt_studio: "Studio Équipé (4 studios)",
+                        opt_apt: "Appartement Haut Standing (1 appartement)",
+                        form_label_message: "Message, questions ou date de visite souhaitée",
+                        form_btn_submit: "Envoyer ma demande",
+                        form_success_msg: "Félicitations ! Votre demande a été reçue avec succès. Le gérant de Manon City vous contactera sous peu.",
+
+                        footer_brand_desc: "Résidence haut standing de 8 chambres, 4 studios et 1 appartement prestigieux avec forage d'eau gratuite, chauffe-eau et groupe électrogène à Yaoundé.",
+                        footer_title_links: "Liens Rapides",
+                        footer_title_contact: "Contact Gérant",
+                        footer_loc: "Quartier IAI Cameroun, Yaoundé",
+                        footer_rights: "Tous droits réservés."
+                    },
+                    en: {
+                        nav_home: "Home",
+                        nav_about: "About",
+                        nav_accommodations: "Accommodations",
+                        nav_amenities: "Amenities",
+                        nav_contact: "Contact & Booking",
+
+                        hero_badge: "Near IAI Cameroon",
+                        hero_title_1: "Manon City: Premium",
+                        hero_title_2: "Standing & Comfort",
+                        hero_desc: "An exceptional, modern and fully equipped living space for students, professionals, and academics. Experience premium comfort in safety just 2 minutes from IAI Cameroon.",
+                        hero_cta_book: "Book now",
+                        hero_cta_explore: "View Rooms & Studios",
+                        hero_visual_sub: "Premium Choice",
+                        hero_visual_title: "Manon City - IAI",
+
+                        badge_water: "Free Water (Borehole)",
+                        badge_generator: "Standby Generator",
+                        badge_parking: "Secure Parking",
+                        badge_heater: "Water Heater",
+                        badge_security: "24/7 Security",
+
+                        cat_rooms: "Rooms",
+                        cat_studios: "Studios",
+                        cat_apartment: "Apartment",
+
+                        about_subtitle: "About the Residence",
+                        about_title: "The perfect blend of comfort and proximity",
+                        about_sec_title: "Why choose Manon City?",
+                        about_desc_1: "Our modern building is ideally located just a few steps from the African Institute of Computer Science (IAI) Cameroon. Built to meet the comfort and security standards of both students and young professionals, it stands out for its high-end utilities and uninterrupted critical resources.",
+                        about_desc_2: "Whether you are a student seeking a quiet study environment, or a professional looking for luxury, we have the perfect unit. Forget about water shortages or power blackouts: our high-flow borehole, standby generator, and modern individual water heaters guarantee a smooth daily routine.",
+
+                        char_proxi_title: "Immediate Proximity",
+                        char_proxi_desc: "A short 2-minute walk to the IAI campus gates.",
+                        char_quality_title: "High-End Finishes",
+                        char_quality_desc: "Premium building materials, beautiful tiling, water heaters, and modern paint.",
+                        char_water_title: "Water Self-Sufficiency",
+                        char_water_desc: "Continuous free water supplied 24/7 via private borehole.",
+                        char_heater_title: "Water Heater",
+                        char_heater_desc: "Hot running water available for all showers.",
+
+                        about_box_title: "Peace of Mind",
+                        about_box_desc: "Focus fully on your studies or business while we manage all the utilities.",
+
+                        acc_subtitle: "Our Units",
+                        acc_title: "Explore our apartments designed with you in mind",
+
+                        card_rooms_qty: "8 Rooms Available",
+                        card_rooms_tag: "Spacious & Equipped",
+                        card_rooms_title: "Large Modern Rooms",
+                        card_rooms_desc: "Our top-tier single rooms are quiet, highly spacious (quite large) and designed for your convenience with a private shower and inside kitchen.",
+                        feat_rooms_1: "Quite spacious and well-ventilated rooms",
+                        feat_rooms_2: "Private inside shower",
+                        feat_rooms_3: "Integrated private kitchen",
+                        view_all_photos: "View all 4 photos",
+
+                        card_studios_qty: "4 Studios Available",
+                        card_studios_tag: "Living Room + Bedroom + Shower",
+                        card_studios_badge: "Popular",
+                        card_studios_title: "Ready-To-Live Studios",
+                        card_studios_desc: "A perfect independent flat featuring a cozy living room, a separate comfortable bedroom, a modern private shower, and a kitchen.",
+                        feat_studios_1: "A welcoming living room and an independent bedroom",
+                        feat_studios_2: "Modern shower equipped with individual water heater",
+                        feat_studios_3: "Functional kitchen for all your culinary needs",
+                        view_all_photos_studio: "View all 5 photos",
+
+                        card_apt_qty: "1 Luxury Apartment",
+                        card_apt_tag: "Premium VIP (No Balcony)",
+                        card_apt_title: "VIP Premium Apartment",
+                        card_apt_desc: "The pinnacle of high-standing living at Manon City. This magnificent apartment consists of a large cozy living room, a modern American-style kitchen, 1 master bedroom equipped with its own private shower, an additional separate bedroom, and a second shower.",
+                        feat_apt_1: "1 master bedroom with its own private shower",
+                        feat_apt_2: "Another independent bedroom and a separate shower",
+                        feat_apt_3: "Spacious main living room and American-style kitchen",
+                        view_all_photos_apt: "View all 8 photos",
+
+                        starting_from: "Starting from",
+                        btn_reserve: "Book / Info",
+
+                        amen_subtitle: "Top-Tier Utilities",
+                        amen_title: "Everything you need included for peace of mind",
+                        amen_water_title: "Free Water (Borehole)",
+                        amen_water_desc: "Thanks to our high-flow deep borehole, water flows 24/7. It's fully filtered, reliable, and completely free for all tenants.",
+                        amen_gen_title: "Backup Generator",
+                        amen_gen_desc: "An industrial standby generator automatically kicks in during power grid outages to keep you powered up.",
+                        amen_park_title: "Private Gated Parking",
+                        amen_park_desc: "Park your motorcycle or car safely inside our spacious paved yard, completely fenced and included in your rent.",
+                        amen_heater_title: "Water Heaters Installed",
+                        amen_heater_desc: "Indulge in warm, comforting showers. Every unit in the building is outfitted with premium high-capacity water heaters.",
+
+                        callout_badge: "Limited Availability",
+                        callout_title: "Secure your unit at Manon City before the next school year!",
+                        callout_desc: "Premium properties close to IAI featuring borehole, generator, and water heaters fill up incredibly fast. Secure yours today.",
+                        callout_btn: "Contact Management",
+
+                        contact_subtitle: "Get in Touch",
+                        contact_title: "Plan a tour or book your room today",
+                        contact_info_title: "Contact Info",
+                        contact_info_desc: "The property manager of Manon City is at your service to organize a free viewing tour or finalize your booking.",
+                        contact_phone: "Direct Call",
+                        contact_whatsapp: "WhatsApp Chat",
+                        contact_location: "GPS Navigation",
+                        contact_location_val: "Open on Google Maps",
+                        contact_location_sub: "Located near IAI Cameroon, Yaoundé",
+
+                        faq_note_title: "Good to Know",
+                        faq_note_1: "Property tours are fully free of charge and can be scheduled daily.",
+                        faq_note_2: "Borehole water is filtered, top-quality, and 100% free of charge.",
+                        faq_note_3: "Every single apartment type in Manon City comes with hot water heater.",
+
+                        form_title: "Booking & Enquiry Form",
+                        form_label_name: "Full Name",
+                        form_label_phone: "Phone Number (WhatsApp preferred)",
+                        form_label_email: "Email Address",
+                        form_label_choice: "Desired Accommodation Unit",
+                        opt_room: "Single Room (8 rooms total)",
+                        opt_studio: "Fitted Studio (4 studios total)",
+                        opt_apt: "Luxury Apartment (1 exclusive apt)",
+                        form_label_message: "Your message, questions or requested tour date",
+                        form_btn_submit: "Send Booking Request",
+                        form_success_msg: "Success! Your request has been received. Manon City's manager will contact you within the next few minutes.",
+
+                        footer_brand_desc: "High standing residence featuring 8 rooms, 4 studios, and 1 luxury apartment with free private water, water heaters, and back-up power near IAI Cameroon in Yaoundé.",
+                        footer_title_links: "Quick Links",
+                        footer_title_contact: "Property Manager",
+                        footer_loc: "IAI Cameroon Neighborhood, Yaoundé",
+                        footer_rights: "All rights reserved."
+                    }
+                },
+
+                init() {
+                    // Detect browser language or default to 'fr'
+                    const userLang = navigator.language || navigator.userLanguage;
+                    if (userLang && userLang.startsWith('en')) {
+                        this.lang = 'en';
+                    } else {
+                        this.lang = 'fr';
+                    }
+                },
+
+                setLanguage(l) {
+                    this.lang = l;
+                },
+
+                t(key) {
+                    return this.translations[this.lang][key] || key;
+                },
+
+                submitForm() {
+                    this.formSubmitted = true;
+                    setTimeout(() => {
+                        this.formSubmitted = false;
+                        this.formData = { name: '', phone: '', email: '', message: '' };
+                    }, 5000);
+                }
+            };
+        }
+    </script>
+</body>
+</html>
