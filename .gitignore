@@ -1,0 +1,12 @@
+node_modules/
+**/node_modules/
+.expo/
+dist/
+build/
+**/build/
+database/database.sqlite
+*.log
+*.pid
+login_response.json
+login_test.json
+/home/jules/verification/
