@@ -1,133 +1,419 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My login page</title>
-    <style>
-        *{
-            font-family: "poppins",sans-serif;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body{
-            background: url(bgit.png);
-            width: 100%;
-            height: 100dvh;
-            display: flex;
-            align-items: center;
-            background-size: cover;
-            background-position: center;
-        }
-        .container{
-            background: rgb(0, 0, 0 ,0.1);
-            width: 320px;
-            padding: 24px;
-           
-            margin: 20cm;
-            border-radius: 16px;
-            border: solid rgb(255, 255, 255 ,0.1);
-            backdrop-filter: blur(25px);
-            box-shadow: 0px 0px 30px 20px rgb(0, 0, 0 ,0.1);
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        
-        }
-        .login-title{
-            margin-bottom: 16px;
-        }
-
-        .input-box{
-            display: flex;
-            width: 100%;
-            position: relative;
-            margin-top: 20px;
-            padding-top:20px;
-        }
-        .input-box input{
-            width: 100%;
-            padding: 10px 16px 10px 38px;
-            border-radius: 99px;
-            border: solid 3px transparent;
-            background: rgb(255, 255, 255, 0.1);
-            outline: none;
-            caret-color: white;
-            color: white;
-            font-weight: 500;
-            transition: 0.25s;
-        }
-        .input-box input:focus{
-            border: solid rgb(255, 255, 255 ,0.25);
-        }
-        .input-box input::placeholder{
-            color: rgb(255, 255, 255 ,0.75);
-        }
-        .input-box::-ms-reveal{
-            filter:invert(100%)
-        }
-        .input-box i{
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            left: 14px;
-            color: rgb(255, 255, 255 ,0.75);
-            font-size: 18px;
-            transition: 0.25s;
-        }
-        .input-box input:focus +i {
-            color: white;
-        }
-        .remember-forgot-box{
-            display: flex;
-            width: 100%;
-            margin-top: 16px;
-            justify-content: space-between;
-        }
-        .remember-forgot-box h5{
-            font-weight: normal;
-        }
-        .remember-me{
-            display: flex;
-            gap: 8px;
-        }
-        
-    </style>
+    <title>JurisMind - Quiz d'apprentissage juridique Cameroun</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body>
-    <from class="container">
-        <h1 class="login-title">Login</h1>
-        <img src="user_456141.png" alt="no" height="12%" width="15%">
-        <section class="input-box">
-            
-            <input type="text" name="username" placeholder="username">
-            <i class="bx bxs-user"></i>
-        </section>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans">
 
-        <section class="input-box">
-            <input type="password" name="Mdp" placeholder="password">
-            <i class="bx bxs-lock-alt" ></i>
-        </section>
-        
-        <section class="remember-forgot-box">
-            <div class="remember-me">
-                <input type="checkbox" name="remember-me" id="remember-me">
-                <label for="remember-me">
-                    <h5>Remember-me</h5>
-                </label>
+    <!-- Header / Navbar -->
+    <header class="bg-slate-800 border-b border-slate-700 shadow-lg px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="bg-amber-500 text-slate-900 font-bold p-2.5 rounded-xl shadow-md">
+                <i class="fa-solid fa-scale-balanced text-xl"></i>
             </div>
-            <a href="#" class="forgot-password">
-                <h5>forgot password ?</h5>
-            </a>
+            <div>
+                <h1 class="text-xl font-extrabold text-amber-400 tracking-wide">JurisMind CM</h1>
+                <p class="text-xs text-slate-400">Assistant & Quiz d'apprentissage juridique</p>
+            </div>
+        </div>
+
+        <div id="user-header-info" class="hidden flex items-center space-x-4">
+            <div class="bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-600 flex items-center space-x-2 text-sm">
+                <i class="fa-solid fa-fire text-amber-500"></i>
+                <span id="streak-badge" class="font-bold">0 jours</span>
+            </div>
+            <div class="bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-600 flex items-center space-x-2 text-sm">
+                <i class="fa-solid fa-trophy text-yellow-400"></i>
+                <span id="points-badge" class="font-bold">0 pts</span>
+            </div>
+            <button onclick="logout()" class="text-slate-400 hover:text-red-400 transition">
+                <i class="fa-solid fa-right-from-bracket text-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6">
+
+        <!-- VIEW 1: AUTHENTICATION -->
+        <section id="view-auth" class="bg-slate-800 border border-slate-700 rounded-2xl p-6 sm:p-8 shadow-xl max-w-md mx-auto my-12">
+            <div class="text-center mb-6">
+                <i class="fa-solid fa-graduation-cap text-4xl text-amber-500 mb-2"></i>
+                <h2 class="text-2xl font-bold text-slate-100">Connexion Joueur</h2>
+                <p class="text-sm text-slate-400">Connectez-vous pour tester vos connaissances en droit camerounais</p>
+            </div>
+            <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">ID Utilisateur (ID système)</label>
+                    <input type="number" id="auth-user-id" value="3" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:border-amber-500">
+                    <p class="text-xs text-slate-500 mt-1">Saisissez l'ID (ex: 3 pour citoyen, 4 pour citoyen premium)</p>
+                </div>
+                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3 rounded-xl shadow-lg transition duration-200">
+                    Accéder aux Quiz
+                </button>
+            </form>
         </section>
 
-    <button class="login-button" type="submit" style="width: 250px;height: 35px; border-radius: 30px;"> Login </button>
-        <h5 class="dont-have-an-account">
-            Dont have an account?
-            <a href="#">register</a>
-        </h5>
-    </from>
+        <!-- VIEW 2: DASHBOARD & CATEGORIES -->
+        <section id="view-dashboard" class="hidden space-y-6">
+            <!-- Progress Summary Card -->
+            <div class="bg-gradient-to-r from-amber-500/10 to-blue-500/10 border border-amber-500/30 rounded-2xl p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-amber-400">Prêt pour un défi ?</h2>
+                    <p class="text-slate-300 text-sm">Débloquez des niveaux et accumulez des points en répondant aux quiz sur les lois du Cameroun.</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="text-center bg-slate-800/80 px-4 py-2 rounded-xl border border-slate-700">
+                        <span id="user-level" class="block font-black text-lg text-amber-400">Débutant</span>
+                        <span class="text-xs text-slate-400">Niveau</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-bold text-slate-100">Catégories de droit</h3>
+                <span class="text-xs bg-slate-800 border border-slate-700 px-3 py-1 rounded-full text-slate-400">Cameroun & OHADA</span>
+            </div>
+
+            <!-- Categories Container -->
+            <div id="categories-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Loaded dynamically -->
+            </div>
+
+            <!-- Quizzes List Container -->
+            <div id="quizzes-section" class="hidden space-y-4 mt-8">
+                <h3 class="text-lg font-bold text-slate-200 border-b border-slate-700 pb-2">Quiz disponibles</h3>
+                <div id="quizzes-list" class="grid grid-cols-1 gap-3">
+                    <!-- Loaded dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 3: QUIZ QUESTIONNAIRE -->
+        <section id="view-quiz" class="hidden bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl space-y-6">
+            <div class="flex justify-between items-center border-b border-slate-700 pb-4">
+                <div>
+                    <h2 id="quiz-title" class="text-xl font-bold text-amber-400">Titre du Quiz</h2>
+                    <p id="quiz-meta" class="text-xs text-slate-400">Question 1 / 5</p>
+                </div>
+                <button onclick="showDashboard()" class="text-sm text-slate-400 hover:text-slate-200">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form id="quiz-form" onsubmit="submitQuiz(event)" class="space-y-6">
+                <div id="questions-container" class="space-y-6">
+                    <!-- Loaded dynamically -->
+                </div>
+
+                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3.5 rounded-xl shadow-lg transition duration-200">
+                    Soumettre mes réponses
+                </button>
+            </form>
+        </section>
+
+        <!-- VIEW 4: QUIZ RESULT & CORRECTION -->
+        <section id="view-result" class="hidden bg-slate-800 border border-slate-700 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+            <div class="text-center space-y-2">
+                <div id="result-icon-bg" class="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl mb-2">
+                    <i id="result-icon" class="fa-solid"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-100">Résultat du Quiz</h2>
+                <div class="flex justify-center items-center space-x-6 py-2">
+                    <div>
+                        <span id="result-score" class="text-3xl font-black text-amber-400">0/0</span>
+                        <span class="block text-xs text-slate-400">Score</span>
+                    </div>
+                    <div>
+                        <span id="result-points" class="text-3xl font-black text-green-400">+0</span>
+                        <span class="block text-xs text-slate-400">Points Gagnés</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-lg font-bold text-slate-200 border-b border-slate-700 pb-2">Correction et explications juridiques</h3>
+                <div id="corrections-list" class="space-y-4">
+                    <!-- Loaded dynamically -->
+                </div>
+            </div>
+
+            <button onclick="showDashboard()" class="w-full bg-slate-700 hover:bg-slate-600 text-slate-100 font-bold py-3 rounded-xl shadow transition duration-200">
+                Retour au tableau de bord
+            </button>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 border-t border-slate-700 py-4 text-center text-xs text-slate-500">
+        JurisMind CM &copy; 2026 - Plateforme d'apprentissage et assistance juridique au Cameroun.
+    </footer>
+
+    <script>
+        let currentToken = "";
+        let currentUserId = null;
+        let activeQuiz = null;
+
+        function getAuthHeaders() {
+            return {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${currentToken}`
+            };
+        }
+
+        async function handleAuth(event) {
+            event.preventDefault();
+            const userId = parseInt(document.getElementById("auth-user-id").value);
+            currentUserId = userId;
+
+            try {
+                const res = await fetch("/auth/demo-token", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ user_id: userId })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    currentToken = data.access_token;
+
+                    document.getElementById("view-auth").classList.add("hidden");
+                    document.getElementById("user-header-info").classList.remove("hidden");
+                    document.getElementById("user-header-info").classList.add("flex");
+
+                    await loadProgress();
+                    await loadCategories();
+                    showDashboard();
+                } else {
+                    alert("Erreur lors de la génération du jeton d'authentification.");
+                }
+            } catch (err) {
+                console.error("Erreur authentification demo:", err);
+            }
+        }
+
+        function logout() {
+            currentToken = "";
+            currentUserId = null;
+            document.getElementById("user-header-info").classList.add("hidden");
+            document.getElementById("view-dashboard").classList.add("hidden");
+            document.getElementById("view-quiz").classList.add("hidden");
+            document.getElementById("view-result").classList.add("hidden");
+            document.getElementById("view-auth").classList.remove("hidden");
+        }
+
+        function showDashboard() {
+            document.getElementById("view-quiz").classList.add("hidden");
+            document.getElementById("view-result").classList.add("hidden");
+            document.getElementById("view-dashboard").classList.remove("hidden");
+        }
+
+        async function loadProgress() {
+            try {
+                const res = await fetch("/quiz/me/progress", { headers: getAuthHeaders() });
+                if (res.ok) {
+                    const data = await res.json();
+                    document.getElementById("points-badge").innerText = `${data.points_total} pts`;
+                    document.getElementById("streak-badge").innerText = `${data.streak_jours} jours`;
+                    document.getElementById("user-level").innerText = data.niveau_utilisateur;
+                }
+            } catch (err) {
+                console.error("Erreur chargement progression:", err);
+            }
+        }
+
+        async function loadCategories() {
+            try {
+                const res = await fetch("/quiz/categories", { headers: getAuthHeaders() });
+                const listEl = document.getElementById("categories-list");
+                listEl.innerHTML = "";
+
+                if (res.ok) {
+                    const categories = await res.json();
+                    if (categories.length === 0) {
+                        listEl.innerHTML = `<p class="text-slate-400 text-sm italic col-span-2">Aucune catégorie disponible. Utilisez les endpoints admin pour en créer.</p>`;
+                        return;
+                    }
+
+                    categories.forEach(cat => {
+                        const card = document.createElement("div");
+                        card.className = "bg-slate-800 border border-slate-700 hover:border-amber-500/50 rounded-2xl p-5 cursor-pointer transition shadow-md flex justify-between items-center";
+                        card.onclick = () => loadQuizzesForCategory(cat.id, cat.nom);
+                        card.innerHTML = `
+                            <div>
+                                <h4 class="font-bold text-slate-100 text-lg">${cat.nom}</h4>
+                                <p class="text-xs text-slate-400 mt-1">${cat.description || "Droit camerounais"}</p>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-amber-400"></i>
+                        `;
+                        listEl.appendChild(card);
+                    });
+                }
+            } catch (err) {
+                console.error("Erreur chargement catégories:", err);
+            }
+        }
+
+        async function loadQuizzesForCategory(catId, catNom) {
+            try {
+                const res = await fetch(`/quiz/category/${catId}/quizzes`, { headers: getAuthHeaders() });
+                const sectionEl = document.getElementById("quizzes-section");
+                const listEl = document.getElementById("quizzes-list");
+                listEl.innerHTML = "";
+
+                if (res.ok) {
+                    const quizzes = await res.json();
+                    sectionEl.classList.remove("hidden");
+
+                    if (quizzes.length === 0) {
+                        listEl.innerHTML = `<p class="text-slate-400 text-sm italic">Aucun quiz publié dans cette catégorie pour votre niveau d'accès.</p>`;
+                        return;
+                    }
+
+                    quizzes.forEach(q => {
+                        const item = document.createElement("div");
+                        item.className = "bg-slate-900 border border-slate-700 rounded-xl p-4 flex justify-between items-center";
+                        item.innerHTML = `
+                            <div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="font-bold text-slate-100">${q.titre}</span>
+                                    <span class="text-[10px] px-2 py-0.5 rounded font-semibold ${q.niveau_acces === 'premium' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-green-500/20 text-green-400 border border-green-500/30'}">${q.niveau_acces.toUpperCase()}</span>
+                                </div>
+                                <span class="text-xs text-slate-400">Niveau: ${q.niveau}</span>
+                            </div>
+                            <button onclick="startQuiz(${q.id})" class="bg-amber-500 hover:bg-amber-600 text-slate-900 text-xs font-bold px-4 py-2 rounded-lg transition">
+                                Démarrer
+                            </button>
+                        `;
+                        listEl.appendChild(item);
+                    });
+                }
+            } catch (err) {
+                console.error("Erreur chargement quiz:", err);
+            }
+        }
+
+        async function startQuiz(quizId) {
+            try {
+                const res = await fetch(`/quiz/${quizId}`, { headers: getAuthHeaders() });
+                if (!res.ok) {
+                    const errorData = await res.json();
+                    alert(errorData.detail || "Impossible d'accéder à ce quiz");
+                    return;
+                }
+
+                activeQuiz = await res.json();
+                document.getElementById("quiz-title").innerText = activeQuiz.titre;
+                document.getElementById("quiz-meta").innerText = `${activeQuiz.questions.length} question(s)`;
+
+                const qContainer = document.getElementById("questions-container");
+                qContainer.innerHTML = "";
+
+                activeQuiz.questions.forEach((q, idx) => {
+                    const qBox = document.createElement("div");
+                    qBox.className = "bg-slate-900 border border-slate-700 rounded-xl p-5 space-y-3";
+
+                    let answersHtml = "";
+                    q.answers.forEach(ans => {
+                        answersHtml += `
+                            <label class="flex items-start space-x-3 bg-slate-800 border border-slate-700 p-3 rounded-lg cursor-pointer hover:border-slate-500 transition">
+                                <input type="checkbox" name="q_${q.id}" value="${ans.id}" class="mt-1 rounded border-slate-700 text-amber-500 focus:ring-amber-500">
+                                <span class="text-sm text-slate-200">${ans.texte}</span>
+                            </label>
+                        `;
+                    });
+
+                    qBox.innerHTML = `
+                        <div class="flex items-start justify-between">
+                            <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">Question ${idx + 1}</span>
+                            ${q.source_reference ? `<span class="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded border border-slate-700"><i class="fa-solid fa-book-bookmark text-amber-500 mr-1"></i>${q.source_reference}</span>` : ''}
+                        </div>
+                        <p class="font-medium text-slate-100">${q.texte}</p>
+                        <div class="space-y-2 mt-2">${answersHtml}</div>
+                    `;
+                    qContainer.appendChild(qBox);
+                });
+
+                document.getElementById("view-dashboard").classList.add("hidden");
+                document.getElementById("view-quiz").classList.remove("hidden");
+            } catch (err) {
+                console.error("Erreur démarrage quiz:", err);
+            }
+        }
+
+        async function submitQuiz(event) {
+            event.preventDefault();
+            if (!activeQuiz) return;
+
+            const submissionPayload = { reponses: [] };
+
+            activeQuiz.questions.forEach(q => {
+                const checkedInputs = document.querySelectorAll(`input[name="q_${q.id}"]:checked`);
+                const selectedIds = Array.from(checkedInputs).map(cb => parseInt(cb.value));
+                submissionPayload.reponses.push({
+                    question_id: q.id,
+                    selected_answer_ids: selectedIds
+                });
+            });
+
+            try {
+                const res = await fetch(`/quiz/${activeQuiz.id}/submit`, {
+                    method: "POST",
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(submissionPayload)
+                });
+
+                if (res.ok) {
+                    const result = await res.json();
+                    showResultView(result);
+                    await loadProgress();
+                } else {
+                    alert("Erreur lors de la soumission du quiz.");
+                }
+            } catch (err) {
+                console.error("Erreur soumission:", err);
+            }
+        }
+
+        function showResultView(result) {
+            document.getElementById("view-quiz").classList.add("hidden");
+            document.getElementById("view-result").classList.remove("hidden");
+
+            document.getElementById("result-score").innerText = `${result.score}/${result.total_questions}`;
+            document.getElementById("result-points").innerText = `+${result.points_gagnes}`;
+
+            const iconBg = document.getElementById("result-icon-bg");
+            const icon = document.getElementById("result-icon");
+
+            if (result.score === result.total_questions) {
+                iconBg.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl mb-2 bg-green-500/20 text-green-400 border border-green-500/30";
+                icon.className = "fa-solid fa-circle-check";
+            } else {
+                iconBg.className = "w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl mb-2 bg-amber-500/20 text-amber-400 border border-amber-500/30";
+                icon.className = "fa-solid fa-award";
+            }
+
+            const cList = document.getElementById("corrections-list");
+            cList.innerHTML = "";
+
+            result.corrections.forEach((c, idx) => {
+                const box = document.createElement("div");
+                box.className = `border rounded-xl p-4 space-y-2 ${c.est_correcte ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'}`;
+                box.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid ${c.est_correcte ? 'fa-check text-green-400' : 'fa-xmark text-red-400'}"></i>
+                        <span class="font-bold text-sm ${c.est_correcte ? 'text-green-400' : 'text-red-400'}">Question ${idx + 1} : ${c.est_correcte ? 'Correcte' : 'Incorrecte'}</span>
+                    </div>
+                    ${c.explication ? `<p class="text-xs text-slate-300"><strong>Explication :</strong> ${c.explication}</p>` : ''}
+                    ${c.source_reference ? `<p class="text-[11px] text-amber-400/90"><strong>Référence légale :</strong> ${c.source_reference}</p>` : ''}
+                `;
+                cList.appendChild(box);
+            });
+        }
+    </script>
 </body>
 </html>
