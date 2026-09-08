@@ -1,0 +1,7 @@
+database/database.sqlite
+*.log
+node_modules/
+.expo/
+dist/
+web/build/
+verification/
